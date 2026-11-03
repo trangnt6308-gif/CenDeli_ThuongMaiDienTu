@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CenDeli | Đặc sản miền Trung</title>
+
+    <!-- Font: Be Vietnam Pro (chữ thường) + Playfair Display (tiêu đề) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap&subset=vietnamese"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <!-- =====================================================
+     HEADER
+     Bố cục: [Logo + tên]  [Menu giữa]  [Đăng nhập | Đăng ký | Giỏ hàng]
+===================================================== -->
+    <header class="header">
+      <div class="container header-inner">
+        <!-- ================================================
+             >>> LOGO NHÓM: file image/logo.png <<<
+             - Đặt file logo vào:  ../image/logo.png
+             - Muốn đổi logo: thay file image/logo.png (giữ nguyên tên) hoặc sửa đường dẫn bên dưới
+             - Chưa có logo thì web tự hiện vòng tròn chữ "C" thay thế
+        ================================================= -->
+        <a class="brand" href="index.html">
+          <img
+            class="brand-logo"
+            src="../image/logo.png"
+            alt="Logo CenDeli"
+            onerror="
+              this.style.display = 'none';
+              this.nextElementSibling.style.display = 'flex';
+            "
+          />
+          <span class="brand-mark">C</span>
+
+          <span class="brand-text">
+            <strong>CenDeli</strong>
+            <small>ĐẶC SẢN MIỀN TRUNG</small>
+          </span>
+        </a>
+
+        <nav class="main-nav" id="mainNav">
+          <a class="nav-link active" href="index.html">Trang chủ</a>
+
+          <div class="nav-item">
+            <a class="nav-link" href="#danh-muc"
+              >Danh mục <span class="chev">&#9662;</span></a
+            >
+            <div class="dropdown">
+              <a href="san-pham.html?category=1">Đồ ăn liền, nhấm nháp</a>
+              <a href="san-pham.html?category=2"
+                >Thịt &amp; đồ lên men truyền thống</a
+              >
+              <a href="san-pham.html?category=3"
+                >Hải sản khô &amp; mắm vùng miền</a
+              >
+            </div>
+          </div>
+
+          <a class="nav-link" href="#san-pham">Sản phẩm</a>
+          <a class="nav-link" href="#gioi-thieu">Giới thiệu</a>
+          <a class="nav-link" href="#lien-he">Liên hệ</a>
+          <a class="nav-link" href="#chinh-sach">Chính sách</a>
+        </nav>
+
+        <div class="header-actions">
+          <a class="btn btn-outline btn-small" href="dang-nhap.html"
+            >Đăng nhập</a
+          >
+          <a class="btn btn-primary btn-small" href="dang-ky.html">Đăng ký</a>
+          <a class="cart-link" href="gio-hang.html">
+            Giỏ hàng <span id="cartCount">0</span>
+          </a>
+          <button
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Mở menu"
+            aria-expanded="false"
+          >
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- =====================================================
+         BANNER ĐẦU TRANG
+    ===================================================== -->
+      <section class="hero" id="trang-chu">
+        <!-- ================================================
+             >>> ẢNH BANNER: file image/banner.png <<<
+             - Muốn thêm ảnh banner thứ 2, 3: copy thêm thẻ <img class="hero-slide" ...> bên dưới
+               và thêm khối chấm tròn <div class="hero-dots" id="heroDots"> (xem script.js).
+             - Banner nên để món ăn nằm bên PHẢI, bên TRÁI chừa trống cho chữ.
+        ================================================= -->
+        <div class="hero-slides">
+          <img
+            class="hero-slide active"
+            src="../image/banner.png"
+            alt="Đặc sản miền Trung CenDeli"
+            onerror="this.remove()"
+          />
+        </div>
+
+        <div class="hero-overlay"></div>
+
+        <div class="container hero-content">
+          <div class="hero-copy">
+            <p class="hero-tag">
+              <span class="line"></span>
+              <span class="pill">TINH HOA ẨM THỰC MIỀN TRUNG</span>
+              <span class="line"></span>
+            </p>
+
+            <!-- Hai dòng tiêu đề CÙNG cỡ chữ, CÙNG căn trái, chỉ khác màu -->
+            <h1 class="hero-title">
+              <span class="t1">Gói trọn vị miền Trung,</span>
+              <span class="t2">gửi gắm vị quê nhà</span>
+            </h1>
+
+            <p class="hero-desc">
+              Khám phá những món đặc sản mang đậm hương vị quê hương,<br />
+              được CenDeli tuyển chọn và gửi đến bạn.
+            </p>
+
+            <a class="btn btn-primary btn-large" href="#san-pham">
+              Khám phá sản phẩm <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Con dấu "Đặc sản Miền Trung" góc phải.
+             Nếu nhóm có file ảnh con dấu riêng, thay cả khối này bằng:
+             <img class="hero-stamp-img" src="../image/stamp-dac-san.png" alt="Đặc sản miền Trung"> -->
+        <div class="hero-stamp">Đặc sản<br />Miền Trung</div>
+      </section>
+
+      <!-- 3 CAM KẾT (thanh trắng đè lên đáy banner) -->
+      <section class="benefits">
+        <div class="container">
+          <div class="benefits-grid">
+            <div class="benefit-item">
+              <div class="benefit-icon">
+                <svg viewBox="0 0 24 24">
+                  <circle cx="12" cy="9" r="6" />
+                  <path d="M8.5 14 7 22l5-3 5 3-1.5-8" />
+                  <path d="m9.5 9 2 2 3-3.5" />
+                </svg>
+              </div>
+              <div>
+                <h3>Đặc sản chọn lọc</h3>
+                <p>Hương vị đặc trưng miền Trung</p>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <div class="benefit-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="m21 8-9-5-9 5v8l9 5 9-5z" />
+                  <path d="m3 8 9 5 9-5M12 13v8" />
+                </svg>
+              </div>
+              <div>
+                <h3>Đóng gói cẩn thận</h3>
+                <p>Bảo quản phù hợp từng sản phẩm</p>
+              </div>
+            </div>
+
+            <div class="benefit-item">
+              <div class="benefit-icon">
+                <svg viewBox="0 0 24 24">
+                  <path d="M4 14v-2a8 8 0 0 1 16 0v2" />
+                  <rect x="3" y="14" width="4" height="6" rx="1.5" />
+                  <rect x="17" y="14" width="4" height="6" rx="1.5" />
+                  <path d="M19 20c0 1.5-2 2-5 2" />
+                </svg>
+              </div>
+              <div>
+                <h3>Hỗ trợ tận tâm</h3>
+                <p>Đồng hành cùng khách hàng</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+         DANH MỤC SẢN PHẨM
+    ===================================================== -->
+      <section class="section category-section" id="danh-muc">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">KHÁM PHÁ CENDELI</p>
+            <h2>Danh mục đặc sản</h2>
+            <p>Chọn nhóm hương vị bạn yêu thích.</p>
+          </div>
+
+          <!-- ================================================
+                 >>> ẢNH DANH MỤC (trong thư mục image/) <<<
+                   danhmuc1.webp  (Đồ ăn liền, nhấm nháp)
+                   danhmuc2.webp  (Thịt & đồ lên men truyền thống)
+                   danhmuc3.jpg   (Hải sản khô & mắm vùng miền)
+            ================================================= -->
+          <div class="category-grid">
+            <a class="category-card" href="san-pham.html?category=1">
+              <div class="image-box category-image">
+                <span>ẢNH DANH MỤC 1</span>
+                <img
+                  src="../image/danhmuc1.webp"
+                  alt="Đồ ăn liền, nhấm nháp"
+                  onerror="this.remove()"
+                />
+              </div>
+              <div class="category-info">
+                <span class="category-number">01</span>
+                <h3>Đồ ăn liền, nhấm nháp</h3>
+                <p>Mở nắp ăn ngay, hợp ăn vặt và làm món nhắm.</p>
+                <span class="category-more">Khám phá danh mục &rarr;</span>
+              </div>
+            </a>
+
+            <a
+              class="category-card category-two"
+              href="san-pham.html?category=2"
+            >
+              <div class="image-box category-image">
+                <span>ẢNH DANH MỤC 2</span>
+                <img
+                  src="../image/danhmuc2.webp"
+                  alt="Thịt và đồ lên men truyền thống"
+                  onerror="this.remove()"
+                />
+              </div>
+              <div class="category-info">
+                <span class="category-number">02</span>
+                <h3>Thịt &amp; đồ lên men truyền thống</h3>
+                <p>Món ngon gia truyền, bảo quản mát hoặc đông lạnh.</p>
+                <span class="category-more">Khám phá danh mục &rarr;</span>
+              </div>
+            </a>
+
+            <a
+              class="category-card category-three"
+              href="san-pham.html?category=3"
+            >
+              <div class="image-box category-image">
+                <span>ẢNH DANH MỤC 3</span>
+                <img
+                  src="../image/danhmuc3.jpg"
+                  alt="Hải sản khô và mắm vùng miền"
+                  onerror="this.remove()"
+                />
+              </div>
+              <div class="category-info">
+                <span class="category-number">03</span>
+                <h3>Hải sản khô &amp; mắm vùng miền</h3>
+                <p>Món mặn chuẩn vị quê, dùng cho bữa cơm gia đình.</p>
+                <span class="category-more">Khám phá danh mục &rarr;</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+         SẢN PHẨM NỔI BẬT
+         Danh sách sản phẩm do file js/script.js tạo ra (biến featuredProducts).
+         ẢNH SẢN PHẨM: khai báo trong js/script.js (trường image của từng sản phẩm),
+         file ảnh nằm trong thư mục image/
+    ===================================================== -->
+      <section class="section products-section" id="san-pham">
+        <div class="container">
+          <div class="section-heading section-heading-row">
+            <div>
+              <p class="eyebrow">GỢI Ý DÀNH CHO BẠN</p>
+              <h2>Sản phẩm nổi bật</h2>
+            </div>
+            <a class="text-link" href="san-pham.html"
+              >Xem tất cả sản phẩm &rarr;</a
+            >
+          </div>
+
+          <div class="product-grid" id="featuredProducts"></div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+         GIỚI THIỆU
+    ===================================================== -->
+      <section class="section about-section" id="gioi-thieu">
+        <div class="container about-layout">
+          <!-- ================================================
+                 >>> ẢNH GIỚI THIỆU: file image/gioithieu.jpg <<<
+            ================================================= -->
+          <div class="about-visual">
+            <div class="image-box about-image">
+              <span>ẢNH GIỚI THIỆU CENDELI</span>
+              <img
+                src="../image/gioithieu.jpg"
+                alt="Đặc sản CenDeli"
+                onerror="this.remove()"
+              />
+            </div>
+            <div class="about-stamp">Vị quê<br />nhà</div>
+          </div>
+
+          <div class="about-content">
+            <p class="eyebrow">CÂU CHUYỆN CENDELI</p>
+            <h2>Mang hương vị quê nhà đến gần hơn</h2>
+            <p>
+              CenDeli mong muốn giới thiệu những món đặc sản thân thuộc của miền
+              Trung, để mỗi sản phẩm không chỉ là món ngon mà còn gợi nhớ nét
+              mộc mạc của quê nhà.
+            </p>
+            <a class="btn btn-primary" href="gioi-thieu.html"
+              >Tìm hiểu về chúng tôi</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+         CHÍNH SÁCH CỬA HÀNG (gộp chung vào trang chủ)
+         Bấm vào từng dòng để mở / đóng nội dung.
+         Mỗi mục có id riêng (doi-tra, van-chuyen, bao-mat, bao-hanh)
+         để menu và footer bấm vào là nhảy tới và tự mở đúng mục.
+    ===================================================== -->
+      <section class="section policy-section" id="chinh-sach">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">AN TÂM MUA SẮM</p>
+            <h2>Chính sách cửa hàng</h2>
+            <p>Những cam kết của CenDeli dành cho mỗi đơn hàng.</p>
+          </div>
+
+          <div class="policy-list">
+            <details class="policy-item" id="doi-tra">
+              <summary>
+                <span class="policy-number">01</span>
+                <span class="policy-title">Chính sách đổi trả</span>
+                <span class="policy-toggle">+</span>
+              </summary>
+              <div class="policy-content">
+                <ul>
+                  <li>
+                    Hỗ trợ <b>1 đổi 1 miễn phí trong 7 ngày</b> kể từ khi nhận
+                    hàng nếu sản phẩm lỗi bao bì, móp vỡ, giao sai hoặc thiếu
+                    sản phẩm, hoặc chất lượng không đạt yêu cầu.
+                  </li>
+                  <li>
+                    Khi phát sinh lỗi, vui lòng gửi hình ảnh hoặc video mở hộp
+                    làm bằng chứng qua mục Liên hệ.
+                  </li>
+                  <li>
+                    Với hàng cần bảo quản mát hoặc đông lạnh, vui lòng kiểm tra
+                    tình trạng sản phẩm ngay khi nhận hàng.
+                  </li>
+                  <li>
+                    Không áp dụng đổi trả với sản phẩm đã mở và sử dụng do thay
+                    đổi sở thích cá nhân.
+                  </li>
+                </ul>
+              </div>
+            </details>
+
+            <details class="policy-item" id="van-chuyen">
+              <summary>
+                <span class="policy-number">02</span>
+                <span class="policy-title">Vận chuyển &amp; đóng gói</span>
+                <span class="policy-toggle">+</span>
+              </summary>
+              <div class="policy-content">
+                <ul>
+                  <li>
+                    Giao hàng toàn quốc qua các đơn vị vận chuyển đối tác: SPX
+                    Express, GHTK, GHN, Viettel Post.
+                  </li>
+                  <li>
+                    Nội thành TP. Hồ Chí Minh và Hà Nội: 1 - 2 ngày. Các tỉnh
+                    thành khác: 2 - 5 ngày.
+                  </li>
+                  <li>
+                    Phí vận chuyển 25.000đ, <b>miễn phí cho đơn từ 300.000đ</b>.
+                  </li>
+                  <li>
+                    Sản phẩm được hút chân không, bọc xốp nổ chống sốc trong
+                    thùng carton. Hàng cần bảo quản mát hoặc đông lạnh được đóng
+                    kèm đá gel để giữ lạnh trong quá trình vận chuyển.
+                  </li>
+                  <li>
+                    Mỗi đơn hàng kèm Gói Trải Nghiệm Hương Vị (mẫu thử và thiệp
+                    cảm ơn có mã QR).
+                  </li>
+                </ul>
+              </div>
+            </details>
+
+            <details class="policy-item" id="bao-mat">
+              <summary>
+                <span class="policy-number">03</span>
+                <span class="policy-title">Bảo mật thông tin</span>
+                <span class="policy-toggle">+</span>
+              </summary>
+              <div class="policy-content">
+                <ul>
+                  <li>
+                    CenDeli chỉ thu thập thông tin cần thiết để xử lý đơn hàng
+                    và chăm sóc khách hàng (họ tên, số điện thoại, địa chỉ,
+                    email).
+                  </li>
+                  <li>
+                    Thông tin được bảo vệ theo Nghị định 13/2023/NĐ-CP về bảo vệ
+                    dữ liệu cá nhân và không chia sẻ cho bên thứ ba, ngoại trừ
+                    đơn vị vận chuyển.
+                  </li>
+                  <li>
+                    CenDeli chỉ gửi tin khuyến mãi khi khách hàng đồng ý, và
+                    khách hàng có thể từ chối nhận bất cứ lúc nào.
+                  </li>
+                </ul>
+              </div>
+            </details>
+
+            <details class="policy-item" id="bao-hanh">
+              <summary>
+                <span class="policy-number">04</span>
+                <span class="policy-title">Bảo hành &amp; chất lượng</span>
+                <span class="policy-toggle">+</span>
+              </summary>
+              <div class="policy-content">
+                <ul>
+                  <li>
+                    Sản phẩm có nguồn gốc rõ ràng, nhãn mác và hạn sử dụng in
+                    trên bao bì.
+                  </li>
+                  <li>
+                    Cam kết chất lượng đến hết hạn sử dụng khi bảo quản đúng
+                    hướng dẫn trên từng sản phẩm.
+                  </li>
+                  <li>
+                    Hỗ trợ giải quyết khiếu nại về chất lượng qua hotline 0357
+                    668 998 và email Cendeli@gmail.com.
+                  </li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+         LIÊN HỆ
+         Cả 3 dòng (điện thoại, email, địa chỉ) dùng CHUNG một màu chữ.
+    ===================================================== -->
+      <section class="section contact-section" id="lien-he">
+        <div class="container">
+          <div class="contact-panel">
+            <div>
+              <p class="eyebrow">CENDELI LUÔN SẴN SÀNG LẮNG NGHE</p>
+              <h2>Cần hỗ trợ đơn hàng?</h2>
+              <p>Liên hệ với chúng tôi để được tư vấn và giải đáp.</p>
+            </div>
+
+            <div class="contact-details">
+              <p>
+                <strong>Điện thoại:</strong>
+                <a href="tel:0357668998">0357 668 998</a>
+              </p>
+              <p>
+                <strong>Email:</strong>
+                <a href="mailto:Cendeli@gmail.com">Cendeli@gmail.com</a>
+              </p>
+              <p><strong>Địa chỉ:</strong> <span>TP. Hồ Chí Minh</span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- =====================================================
+     FOOTER
+===================================================== -->
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <a class="brand footer-logo" href="index.html">
+            <!-- >>> LOGO FOOTER: dùng lại ../image/logo.png (nên có bản logo sáng màu nếu nền tối khó nhìn) -->
+            <img
+              class="brand-logo"
+              src="../image/logo.png"
+              alt="Logo CenDeli"
+              onerror="
+                this.style.display = 'none';
+                this.nextElementSibling.style.display = 'flex';
+              "
+            />
+            <span class="brand-mark">C</span>
+            <span class="brand-text">
+              <strong>CenDeli</strong>
+              <small>ĐẶC SẢN MIỀN TRUNG</small>
+            </span>
+          </a>
+          <p>Gói trọn vị miền Trung,<br />gửi gắm vị quê nhà.</p>
+        </div>
+
+        <div class="footer-column">
+          <h3>Khám phá</h3>
+          <a href="#danh-muc">Danh mục</a>
+          <a href="#san-pham">Sản phẩm</a>
+          <a href="gioi-thieu.html">Giới thiệu</a>
+        </div>
+
+        <div class="footer-column">
+          <h3>Hỗ trợ khách hàng</h3>
+          <a href="#doi-tra">Chính sách đổi trả</a>
+          <a href="#van-chuyen">Vận chuyển &amp; đóng gói</a>
+          <a href="#bao-mat">Bảo mật thông tin</a>
+          <a href="#bao-hanh">Bảo hành &amp; chất lượng</a>
+          <a href="lien-he.html">Liên hệ &amp; góp ý</a>
+        </div>
+
+        <div class="footer-column">
+          <h3>Liên hệ</h3>
+          <p>SĐT : 0357 668 998</p>
+          <p>Email : Cendeli@gmail.com</p>
+          <p>Địa chỉ :TP. Hồ Chí Minh</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 CenDeli. Đặc sản miền Trung.</p>
+      </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>
