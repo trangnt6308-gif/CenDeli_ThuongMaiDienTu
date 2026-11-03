@@ -1,0 +1,530 @@
+/* ==================================
+   CÀI ĐẶT CHUNG
+================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #fffaf3;
+    color: #333;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* ==================================
+   HEADER
+================================== */
+
+.page-header {
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 12px 20px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 25px;
+    font-weight: bold;
+    color: #a34c20;
+}
+
+.logo img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.main-nav {
+    display: flex;
+    gap: 30px;
+}
+
+.main-nav a {
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    color: #d86a27;
+}
+
+
+/* ==================================
+   BANNER
+================================== */
+
+.page-banner {
+    text-align: center;
+    padding: 65px 20px;
+
+    background: linear-gradient(
+        135deg,
+        #f7d6a7,
+        #fcebd3
+    );
+}
+
+.page-banner h1 {
+    color: #873d19;
+    font-size: 34px;
+    margin-bottom: 12px;
+}
+
+.page-banner p {
+    color: #70452c;
+    font-size: 16px;
+}
+
+
+/* ==================================
+   DANH SÁCH SẢN PHẨM
+================================== */
+
+.products-section {
+    max-width: 1200px;
+    margin: auto;
+    padding: 50px 20px;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.section-heading h2 {
+    color: #873d19;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.section-heading p {
+    color: #777;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+
+/* ==================================
+   THẺ SẢN PHẨM
+================================== */
+
+.product-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.13);
+}
+
+.product-image-link {
+    height: 210px;
+    display: block;
+    position: relative;
+    background: #f5eee4;
+    overflow: hidden;
+}
+
+.product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.06);
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #f2e5d3;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #a34c20;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.sale-label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+
+    background: #e74c3c;
+    color: white;
+
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+/* ==================================
+   THÔNG TIN SẢN PHẨM
+================================== */
+
+.product-info {
+    padding: 16px;
+}
+
+.product-category {
+    color: #b36a36;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.product-name {
+    font-size: 17px;
+    color: #333;
+    margin: 8px 0;
+
+    min-height: 50px;
+}
+
+.product-description {
+    color: #777;
+    font-size: 13px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+    min-height: 62px;
+}
+
+.product-prices {
+    margin: 15px 0;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.original-price {
+    color: #999;
+    text-decoration: line-through;
+    font-size: 14px;
+}
+
+.sale-price {
+    color: #e34b32;
+    font-size: 19px;
+    font-weight: bold;
+}
+
+
+/* ==================================
+   NÚT XEM CHI TIẾT
+================================== */
+
+.detail-button {
+    display: block;
+    text-align: center;
+
+    background: #bd5b28;
+    color: white;
+
+    padding: 10px;
+    border-radius: 7px;
+
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.detail-button:hover {
+    background: #873d19;
+}
+
+
+/* ==================================
+   TRANG CHI TIẾT
+================================== */
+
+.detail-section {
+    max-width: 1100px;
+    margin: auto;
+    padding: 35px 20px 60px;
+}
+
+.breadcrumb {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+    color: #777;
+    font-size: 14px;
+}
+
+.breadcrumb a:hover {
+    color: #bd5b28;
+}
+
+.product-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 45px;
+
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.detail-image {
+    height: 420px;
+    background: #f5eee4;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.detail-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.detail-info {
+    padding: 15px 0;
+}
+
+.detail-info h1 {
+    color: #873d19;
+    font-size: 28px;
+    margin: 12px 0;
+}
+
+.detail-prices {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.detail-prices .original-price {
+    font-size: 18px;
+}
+
+.detail-prices .sale-price {
+    font-size: 26px;
+}
+
+.detail-info h3 {
+    margin: 20px 0 8px;
+    color: #873d19;
+}
+
+.detail-info p {
+    color: #666;
+    margin-bottom: 12px;
+}
+
+.product-note {
+    background: #fff3df;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.not-found {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 50px;
+}
+
+.not-found a {
+    color: #bd5b28;
+}
+
+
+/* ==================================
+   FOOTER
+================================== */
+
+.page-footer {
+    background: #873d19;
+    color: white;
+    text-align: center;
+    padding: 22px;
+}
+
+
+/* ==================================
+   RESPONSIVE - TABLET
+================================== */
+
+@media (max-width: 900px) {
+
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .product-detail {
+        gap: 25px;
+    }
+}
+
+
+/* ==================================
+   RESPONSIVE - ĐIỆN THOẠI
+================================== */
+
+@media (max-width: 600px) {
+
+    .header-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .main-nav {
+        gap: 20px;
+    }
+
+    .page-banner h1 {
+        font-size: 25px;
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .product-detail {
+        grid-template-columns: 1fr;
+        padding: 18px;
+    }
+
+    .detail-image {
+        height: 280px;
+    }
+
+    .detail-info h1 {
+        font-size: 23px;
+    }
+}
+
+.detail-origin {
+    color: #a36a43;
+    font-style: italic;
+    margin: 10px 0;
+}
+
+.detail-description {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.detail-description h3 {
+    color: #873d19;
+    margin: 20px 0 10px;
+    font-size: 18px;
+}
+
+.detail-description p {
+    color: #555;
+    line-height: 1.9;
+    margin-bottom: 12px;
+}
+
+.detail-description strong {
+    color: #333;
+}
+
+/* NÚT THÊM VÀO GIỎ HÀNG */
+
+.add-cart-button {
+    display: block;
+    width: 100%;
+
+    padding: 11px;
+    margin-top: 10px;
+
+    background: #fff3df;
+    color: #a34c20;
+
+    border: 1px solid #bd5b28;
+    border-radius: 7px;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.add-cart-button:hover {
+    background: #bd5b28;
+    color: white;
+}
+
+.detail-cart-button {
+    margin: 20px 0;
+    padding: 14px;
+    font-size: 16px;
+}
+
+/* SỐ LƯỢNG GIỎ HÀNG */
+
+#cart-count {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 23px;
+    height: 23px;
+
+    padding: 0 6px;
+    margin-left: 5px;
+
+    border-radius: 50%;
+    background: #e9ad38;
+    color: #663719;
+
+    font-weight: bold;
+    font-size: 13px;
+}
