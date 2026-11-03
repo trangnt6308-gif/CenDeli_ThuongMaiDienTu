@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const featuredProducts = [
     {
       id: 1,
-      image: "../image/ghesuarimme.png",
+      image: "ghesuarimme.png",
       name: "Ghẹ Sữa Rim Me / Rim Cay",
       category: "Đồ ăn liền, nhấm nháp",
       price: 153000,
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       id: 2,
-      image: "../image/cathieuque.png",
+      image: "cathieuque.png",
       name: "Cá Thiều Que Tẩm Gia Vị",
       category: "Đồ ăn liền, nhấm nháp",
       price: 80750,
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       id: 3,
-      image: "../image/banhtrangxoai.png",
+      image: "banhtrangxoai.png",
       name: "Bánh Tráng Xoài Dẻo (Túi 200g)",
       category: "Đồ ăn liền, nhấm nháp",
       price: 25000,
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       id: 6,
-      image: "../image/mucxesoi.png",
+      image: "mucxesoi.png",
       name: "Mực Xé Sợi Hấp Bơ Tỏi",
       category: "Đồ ăn liền, nhấm nháp",
       price: 127500,
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 4 sản phẩm dưới chưa có ảnh: thêm file vào thư mục image/ đúng tên bên dưới là tự hiện
     {
       id: 10,
-      image: "../image/nemchua.png",
+      image: "nemchua.png",
       name: "Nem Chua Huế Gói Lá Chuối",
       category: "Thịt & đồ lên men truyền thống",
       price: 76500,
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       id: 11,
-      image: "../image/bomotnang.png",
+      image: "bomotnang.png",
       name: "Bò Một Nắng Muối Kiến Vàng",
       category: "Thịt & đồ lên men truyền thống",
       price: 97750,
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       id: 14,
-      image: "../image/mamnem.png",
+      image: "mamnem.png",
       name: "Mắm Nêm Pha Sẵn Chuẩn Vị Xứ Quảng",
       category: "Hải sản khô & mắm vùng miền",
       price: 25000,
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       id: 16,
-      image: "../image/mucmotnang.png",
+      image: "mucmotnang.png",
       name: "Mực Một Nắng / Mực Khô Câu",
       category: "Hải sản khô & mắm vùng miền",
       price: 93500,
