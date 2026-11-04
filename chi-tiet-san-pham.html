@@ -1,57 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Chi tiết sản phẩm | CenDeli</title>
 
-    <link rel="stylesheet" href="css/products.css">
+    <link rel="stylesheet" href="css/products.css" />
 
     <script src="js/products.js" defer></script>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <header class="page-header">
-        <div class="header-container">
+      <div class="header-container">
+        <a href="index.html" class="logo">
+          <img src="logo.png" alt="CenDeli" />
+          <span>CenDeli</span>
+        </a>
 
-            <a href="index.html" class="logo">
-                <img src="logo.png" alt="CenDeli">
-                <span>CenDeli</span>
-            </a>
-
-            <nav class="main-nav">
-                <a href="index.html">Trang chủ</a>
-                <a href="san-pham.html" class="active">Sản phẩm</a>
-            </nav>
-
-        </div>
+        <nav class="main-nav">
+          <a href="index.html">Trang chủ</a>
+          <a href="san-pham.html" class="active">Sản phẩm</a>
+        </nav>
+      </div>
     </header>
 
-
     <main class="detail-section">
+      <div class="breadcrumb">
+        <a href="index.html">Trang chủ</a>
+        <span>/</span>
+        <a href="san-pham.html">Sản phẩm</a>
+        <span>/</span>
+        <span>Chi tiết sản phẩm</span>
+      </div>
 
-        <div class="breadcrumb">
-            <a href="index.html">Trang chủ</a>
-            <span>/</span>
-            <a href="san-pham.html">Sản phẩm</a>
-            <span>/</span>
-            <span>Chi tiết sản phẩm</span>
-        </div>
-
-        <div id="product-detail" class="product-detail">
-
-            <!-- Chi tiết sản phẩm được JavaScript hiển thị tại đây -->
-
-        </div>
-
+      <div id="product-detail" class="product-detail"></div>
     </main>
 
-
     <footer class="page-footer">
-        <p>© 2026 CenDeli - Đặc sản Việt Nam</p>
+      <p>© 2026 CenDeli - Đặc sản Việt Nam</p>
     </footer>
-
-</body>
+  </body>
 </html>
