@@ -51,16 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }, 5000);
 
-  // ================= DỮ LIỆU SẢN PHẨM NỔI BẬT =================
-  // Dữ liệu lấy từ file CenDeli_sqlserver.sql (các sản phẩm có is_featured = 1).
-  // price = giá bán (đã giảm), oldPrice = giá gốc.
-  // Khi làm backend: thay mảng này bằng dữ liệu gọi từ API / database.
-  //
-  // ẢNH SẢN PHẨM: trường image là đường dẫn tới file trong thư mục image/
-  //   (từ index.html đi lên 1 cấp: ../image/tenfile.png).
-  //   Sản phẩm nào chưa có file ảnh thì tự hiện khung màu "ẢNH SẢN PHẨM".
-  //   Muốn hiện ảnh: bỏ file vào thư mục image/ với ĐÚNG tên đã ghi ở trường image.
-
   const featuredProducts = [
     {
       id: 1,
@@ -94,7 +84,6 @@ document.addEventListener("DOMContentLoaded", function () {
       price: 127500,
       oldPrice: 150000,
     },
-    // 4 sản phẩm dưới chưa có ảnh: thêm file vào thư mục image/ đúng tên bên dưới là tự hiện
     {
       id: 10,
       image: "nemchua.png",
@@ -172,7 +161,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ================= GIỎ HÀNG DEMO =================
-  // Chỉ lưu số lượng trên trình duyệt (localStorage), chưa phải giỏ hàng thật.
   const cartCountElement = document.getElementById("cartCount");
 
   function getCartCount() {
@@ -189,8 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // ================= CHÍNH SÁCH: TỰ MỞ ĐÚNG MỤC =================
-  // Bấm "Chính sách đổi trả", "Vận chuyển & đóng gói"... ở footer
-  // thì cuộn tới và tự mở đúng mục trong khu vực Chính sách.
+
   function openPolicyItem(id) {
     const target = document.getElementById(id);
     if (target && target.classList.contains("policy-item")) {
@@ -204,12 +191,10 @@ document.addEventListener("DOMContentLoaded", function () {
       openPolicyItem(link.getAttribute("href").slice(1));
     }
   });
-
-  // Mở trang với đường dẫn dạng index.html#doi-tra thì cũng tự mở
   openPolicyItem(window.location.hash.slice(1));
 
   // ================= MENU ĐANG ĐƯỢC CHỌN =================
-  // Bấm vào mục menu dạng #neo trong trang thì mục đó sáng lên.
+
   const navLinks = document.querySelectorAll(
     ".main-nav > .nav-link, .main-nav > .nav-item > .nav-link",
   );

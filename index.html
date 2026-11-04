@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>CenDeli | Đặc sản miền Trung</title>
 
-    <!-- Font: Be Vietnam Pro (chữ thường) + Playfair Display (tiêu đề) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,18 +16,8 @@
   </head>
 
   <body>
-    <!-- =====================================================
-     HEADER
-     Bố cục: [Logo + tên]  [Menu giữa]  [Đăng nhập | Đăng ký | Giỏ hàng]
-===================================================== -->
     <header class="header">
       <div class="container header-inner">
-        <!-- ================================================
-             >>> LOGO NHÓM: file image/logo.png <<<
-             - Đặt file logo vào:  ../image/logo.png
-             - Muốn đổi logo: thay file image/logo.png (giữ nguyên tên) hoặc sửa đường dẫn bên dưới
-             - Chưa có logo thì web tự hiện vòng tròn chữ "C" thay thế
-        ================================================= -->
         <a class="brand" href="index.html">
           <img
             class="brand-logo"
@@ -96,12 +85,6 @@
          BANNER ĐẦU TRANG
     ===================================================== -->
       <section class="hero" id="trang-chu">
-        <!-- ================================================
-             >>> ẢNH BANNER: file image/banner.png <<<
-             - Muốn thêm ảnh banner thứ 2, 3: copy thêm thẻ <img class="hero-slide" ...> bên dưới
-               và thêm khối chấm tròn <div class="hero-dots" id="heroDots"> (xem script.js).
-             - Banner nên để món ăn nằm bên PHẢI, bên TRÁI chừa trống cho chữ.
-        ================================================= -->
         <div class="hero-slides">
           <img
             class="hero-slide active"
@@ -121,7 +104,6 @@
               <span class="line"></span>
             </p>
 
-            <!-- Hai dòng tiêu đề CÙNG cỡ chữ, CÙNG căn trái, chỉ khác màu -->
             <h1 class="hero-title">
               <span class="t1">Gói trọn vị miền Trung,</span>
               <span class="t2">gửi gắm vị quê nhà</span>
@@ -138,13 +120,9 @@
           </div>
         </div>
 
-        <!-- Con dấu "Đặc sản Miền Trung" góc phải.
-             Nếu nhóm có file ảnh con dấu riêng, thay cả khối này bằng:
-             <img class="hero-stamp-img" src="../image/stamp-dac-san.png" alt="Đặc sản miền Trung"> -->
         <div class="hero-stamp">Đặc sản<br />Miền Trung</div>
       </section>
 
-      <!-- 3 CAM KẾT (thanh trắng đè lên đáy banner) -->
       <section class="benefits">
         <div class="container">
           <div class="benefits-grid">
@@ -204,12 +182,6 @@
             <p>Chọn nhóm hương vị bạn yêu thích.</p>
           </div>
 
-          <!-- ================================================
-                 >>> ẢNH DANH MỤC (trong thư mục image/) <<<
-                   danhmuc1.webp  (Đồ ăn liền, nhấm nháp)
-                   danhmuc2.webp  (Thịt & đồ lên men truyền thống)
-                   danhmuc3.jpg   (Hải sản khô & mắm vùng miền)
-            ================================================= -->
           <div class="category-grid">
             <a class="category-card" href="san-pham.html?category=1">
               <div class="image-box category-image">
@@ -271,12 +243,6 @@
         </div>
       </section>
 
-      <!-- =====================================================
-         SẢN PHẨM NỔI BẬT
-         Danh sách sản phẩm do file js/script.js tạo ra (biến featuredProducts).
-         ẢNH SẢN PHẨM: khai báo trong js/script.js (trường image của từng sản phẩm),
-         file ảnh nằm trong thư mục image/
-    ===================================================== -->
       <section class="section products-section" id="san-pham">
         <div class="container">
           <div class="section-heading section-heading-row">
@@ -298,9 +264,6 @@
     ===================================================== -->
       <section class="section about-section" id="gioi-thieu">
         <div class="container about-layout">
-          <!-- ================================================
-                 >>> ẢNH GIỚI THIỆU: file image/gioithieu.jpg <<<
-            ================================================= -->
           <div class="about-visual">
             <div class="image-box about-image">
               <span>ẢNH GIỚI THIỆU CENDELI</span>
@@ -328,12 +291,6 @@
         </div>
       </section>
 
-      <!-- =====================================================
-         CHÍNH SÁCH CỬA HÀNG (gộp chung vào trang chủ)
-         Bấm vào từng dòng để mở / đóng nội dung.
-         Mỗi mục có id riêng (doi-tra, van-chuyen, bao-mat, bao-hanh)
-         để menu và footer bấm vào là nhảy tới và tự mở đúng mục.
-    ===================================================== -->
       <section class="section policy-section" id="chinh-sach">
         <div class="container">
           <div class="section-heading">
@@ -457,10 +414,6 @@
         </div>
       </section>
 
-      <!-- =====================================================
-         LIÊN HỆ
-         Cả 3 dòng (điện thoại, email, địa chỉ) dùng CHUNG một màu chữ.
-    ===================================================== -->
       <section class="section contact-section" id="lien-he">
         <div class="container">
           <div class="contact-panel">
