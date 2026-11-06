@@ -7,6 +7,12 @@
     <title>Danh sách sản phẩm | CenDeli</title>
 
     <link rel="stylesheet" href="css/products.css" />
+    <link rel="stylesheet" href="css/search-filter.css">
+
+    <!-- Font giống trang chủ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap&subset=vietnamese" rel="stylesheet">
 
     <script src="js/products.js" defer></script>
   </head>
@@ -40,6 +46,132 @@
           <p>Những món ngon đặc sản được tuyển chọn dành riêng cho bạn.</p>
         </div>
 
+<!--THANH TÌM KIẾM, LỌC, SẮP XẾP -->
+            <div class="sf-toolbar" role="search">
+                <!-- Hình trang trí-->
+                <div class="sf-deco" aria-hidden="true">
+                    <!-- Đổi ảnh: sửa tên file trong src  -->
+                <span class="sf-deco-img sf-deco-tr">
+                    <img src="mucxesoi.png" alt="" onerror="this.remove()">
+                </span>
+                <span class="sf-deco-img sf-deco-bl">
+                    <img src="nemchua.png" alt="" onerror="this.remove()">
+                </span>
+                    <svg class="sf-deco-star" viewBox="0 0 48 48">
+                        <path d="M24 2c1.6 10.4 11.6 20.4 22 22-10.4 1.6-20.4 11.6-22 22C22.4 35.6 12.4 25.6 2 24 12.4 22.4 22.4 12.4 24 2z"/>
+                    </svg>
+                </div>
+
+                <div class="sf-inner">
+
+                    <!-- Ô tìm kiếm  -->
+                    <div class="sf-search">
+                        <svg class="sf-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="11" cy="11" r="7"></circle>
+                            <line x1="16.5" y1="16.5" x2="21" y2="21"></line>
+                        </svg>
+                        <input type="search" id="sf-search" placeholder="Tìm món đặc sản bạn thích..."
+                               autocomplete="off" aria-label="Tìm sản phẩm theo tên">
+                        <button type="button" id="sf-search-clear" class="sf-search-clear"
+                                aria-label="Xóa từ khóa">&times;</button>
+                        <button type="button" id="sf-search-btn" class="sf-search-btn">Tìm kiếm</button>
+                    </div>
+
+                    <!-- Danh mục -->
+                    <div class="sf-group">
+                        <span class="sf-group-title">Danh mục</span>
+                        <div class="sf-tiles" id="sf-category" role="group" aria-label="Lọc theo danh mục">
+
+                            <button type="button" class="sf-tile is-active" data-value="" aria-pressed="true">
+                                <span class="sf-tile-icon sf-c-brick no-img">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <rect x="4" y="4" width="6.5" height="6.5" rx="1.5"></rect>
+                                        <rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"></rect>
+                                        <rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"></rect>
+                                        <rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"></rect>
+                                    </svg>
+                                </span>
+                                <span class="sf-tile-name">Tất cả sản phẩm</span>
+                            </button>
+
+                            <button type="button" class="sf-tile" data-value="Đồ ăn liền" aria-pressed="false">
+                                <span class="sf-tile-icon sf-c-gold">
+                                    <img src="banhtrangxoai.png" alt="" onerror="this.style.display='none'; this.parentNode.classList.add('no-img');">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <circle cx="12" cy="12" r="9"></circle>
+                                        <circle cx="9" cy="9.5" r="0.6" fill="currentColor"></circle>
+                                        <circle cx="14.5" cy="8.5" r="0.6" fill="currentColor"></circle>
+                                        <circle cx="15" cy="14" r="0.6" fill="currentColor"></circle>
+                                        <circle cx="9.5" cy="15" r="0.6" fill="currentColor"></circle>
+                                    </svg>
+                                </span>
+                                <span class="sf-tile-name">Đồ ăn liền, nhấm nháp</span>
+                            </button>
+
+                            <button type="button" class="sf-tile" data-value="Thịt và đồ lên men truyền thống" aria-pressed="false">
+                                <span class="sf-tile-icon sf-c-brown">
+                                    <img src="bomotnang.png" alt="" onerror="this.style.display='none'; this.parentNode.classList.add('no-img');">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M14.5 4.5a5 5 0 1 1 5 5c-1.2 1.2-3 1.4-4.2.6l-5.6 5.6a2 2 0 1 1-2.8 2.8 2 2 0 1 1-2.8-2.8 2 2 0 0 1 2.8-2.8l5.6-5.6c-.8-1.2-.6-3 .6-4.2z"></path>
+                                    </svg>
+                                </span>
+                                <span class="sf-tile-name">Thịt &amp; đồ lên men truyền thống</span>
+                            </button>
+
+                            <button type="button" class="sf-tile" data-value="Hải sản khô và mắm vùng miền" aria-pressed="false">
+                                <span class="sf-tile-icon sf-c-brick">
+                                    <img src="mucmotnang.png" alt="" onerror="this.style.display='none'; this.parentNode.classList.add('no-img');">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <path d="M3 12c3-5 8-6 12-3l5-2v10l-5-2c-4 3-9 2-12-3z"></path>
+                                        <circle cx="8" cy="11" r="0.7" fill="currentColor"></circle>
+                                    </svg>
+                                </span>
+                                <span class="sf-tile-name">Hải sản khô &amp; mắm vùng miền</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Khoảng giá và Sắp xếp -->
+                    <div class="sf-row">
+
+                        <div class="sf-group sf-group-price">
+                            <span class="sf-group-title">Khoảng giá</span>
+                            <div class="sf-chips" id="sf-price" role="group" aria-label="Lọc theo khoảng giá">
+                                <button type="button" class="sf-chip is-active" data-value="" aria-pressed="true">Tất cả</button>
+                                <button type="button" class="sf-chip" data-value="under-50" aria-pressed="false">Dưới 50k</button>
+                                <button type="button" class="sf-chip" data-value="50-100" aria-pressed="false">50k - 100k</button>
+                                <button type="button" class="sf-chip" data-value="100-150" aria-pressed="false">100k - 150k</button>
+                                <button type="button" class="sf-chip" data-value="over-150" aria-pressed="false">Trên 150k</button>
+                            </div>
+                        </div>
+
+                        <div class="sf-group sf-group-sort">
+                            <span class="sf-group-title">Sắp xếp</span>
+                            <div class="sf-segment" id="sf-sort" role="group" aria-label="Sắp xếp theo giá">
+                                <button type="button" class="sf-seg is-active" data-value="default" aria-pressed="true">Mặc định</button>
+                                <button type="button" class="sf-seg" data-value="price-asc" aria-pressed="false">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M12 5l-5 5M12 5l5 5"></path></svg>
+                                    Giá tăng
+                                </button>
+                                <button type="button" class="sf-seg" data-value="price-desc" aria-pressed="false">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M12 19l-5-5M12 19l5-5"></path></svg>
+                                    Giá giảm
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dòng kết quả và xóa bộ lọc -->
+                    <div class="sf-footer">
+                        <p id="sf-result-count" class="sf-result-count" aria-live="polite"></p>
+                        <button type="button" id="sf-reset" class="sf-reset" hidden>Xóa bộ lọc</button>
+                    </div>
+
+                </div>
+            </div>
+            <!-- HẾT PHẦN TÌM KIẾM / LỌC -->
+             
         <div id="product-list" class="product-grid"></div>
       </section>
     </main>
@@ -49,5 +181,9 @@
     </footer>
 
     <script src="js/products.js"></script>
+    <script src="js/search-filter.js"></script>
   </body>
 </html>
+
+ 
+
