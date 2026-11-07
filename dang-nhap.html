@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Đăng nhập | CenDeli</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap&subset=vietnamese" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+  </head>
+  <body data-page="login">
+    <header class="header">
+      <div class="container header-inner">
+        <a class="brand" href="index.html">
+          <img class="brand-logo" src="logo.png" alt="Logo CenDeli" onerror="this.style.display = 'none'; this.nextElementSibling.style.display = 'flex';" />
+          <span class="brand-mark">C</span>
+          <span class="brand-text"><strong>CenDeli</strong><small>ĐẶC SẢN MIỀN TRUNG</small></span>
+        </a>
+
+        <nav class="main-nav" id="mainNav">
+          <a class="nav-link" href="index.html">Trang chủ</a>
+          <div class="nav-item">
+            <a class="nav-link" href="index.html#danh-muc">Danh mục <span class="chev">&#9662;</span></a>
+            <div class="dropdown">
+              <a href="san-pham.html?category=1">Đồ ăn liền, nhấm nháp</a>
+              <a href="san-pham.html?category=2">Thịt &amp; đồ lên men truyền thống</a>
+              <a href="san-pham.html?category=3">Hải sản khô &amp; mắm vùng miền</a>
+            </div>
+          </div>
+          <a class="nav-link" href="index.html#san-pham">Sản phẩm</a>
+          <a class="nav-link" href="index.html#gioi-thieu">Giới thiệu</a>
+          <a class="nav-link" href="index.html#lien-he">Liên hệ</a>
+          <a class="nav-link" href="index.html#chinh-sach">Chính sách</a>
+        </nav>
+
+        <div class="header-actions">
+          <a class="btn btn-outline btn-small" href="dang-nhap.html">Đăng nhập</a>
+          <a class="btn btn-primary btn-small" href="dang-ky.html">Đăng ký</a>
+          <a class="cart-link" href="gio-hang.html">Giỏ hàng <span id="cartCount">0</span></a>
+          <button class="menu-toggle" id="menuToggle" aria-label="Mở menu" aria-expanded="false"><span></span><span></span><span></span></button>
+        </div>
+      </div>
+    </header>
+
+    <main class="auth-main auth-center">
+      <div class="container">
+        <section class="auth-card split">
+          <aside class="auth-side">
+            <div><span class="side-tag">CENDELI</span><h2>Chào mừng bạn trở lại</h2><p>Gói trọn vị miền Trung, gửi gắm vị quê nhà.</p></div>
+            <div class="side-pics"><span><img src="ghesuarimme.png" alt="" onerror="this.remove()" /></span><span><img src="mamnem.png" alt="" onerror="this.remove()" /></span><span><img src="nemchua.png" alt="" onerror="this.remove()" /></span><span><img src="bomotnang.png" alt="" onerror="this.remove()" /></span></div>
+            <p class="side-note">18 đặc sản chọn lọc từ miền Trung</p>
+            <ul><li>Theo dõi đơn hàng dễ dàng</li><li>Lưu sẵn địa chỉ giao hàng</li><li>Đặc sản chọn lọc từ miền Trung</li></ul>
+          </aside>
+          <div class="auth-form">
+            <h1>Đăng nhập</h1>
+            <p class="auth-sub">Chào mừng bạn quay lại với CenDeli.</p>
+            <form id="loginForm" novalidate>
+              <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" /><small class="field-error"></small></div>
+              <div class="field"><label for="password">Mật khẩu</label><input id="password" name="password" type="password" autocomplete="current-password" /><small class="field-error"></small></div>
+              <p class="form-msg" role="alert"></p>
+              <button class="btn btn-primary btn-large" type="submit">Đăng nhập</button>
+            </form>
+            <p class="auth-foot">Chưa có tài khoản? <a href="dang-ky.html">Đăng ký</a></p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <a class="brand footer-logo" href="index.html">
+            <img class="brand-logo" src="logo.png" alt="Logo CenDeli" onerror="this.style.display = 'none'; this.nextElementSibling.style.display = 'flex';" />
+          <span class="brand-mark">C</span>
+            <span class="brand-text"><strong>CenDeli</strong><small>ĐẶC SẢN MIỀN TRUNG</small></span>
+          </a>
+          <p>Gói trọn vị miền Trung,<br />gửi gắm vị quê nhà.</p>
+        </div>
+        <div class="footer-column">
+          <h3>Khám phá</h3>
+          <a href="index.html#danh-muc">Danh mục</a>
+          <a href="index.html#san-pham">Sản phẩm</a>
+          <a href="gioi-thieu.html">Giới thiệu</a>
+        </div>
+        <div class="footer-column">
+          <h3>Hỗ trợ khách hàng</h3>
+          <a href="index.html#doi-tra">Chính sách đổi trả</a>
+          <a href="index.html#van-chuyen">Vận chuyển &amp; đóng gói</a>
+          <a href="index.html#bao-mat">Bảo mật thông tin</a>
+          <a href="index.html#bao-hanh">Bảo hành &amp; chất lượng</a>
+          <a href="lien-he.html">Liên hệ &amp; góp ý</a>
+        </div>
+        <div class="footer-column">
+          <h3>Liên hệ</h3>
+          <p>SĐT : 0357 668 998</p>
+          <p>Email : Cendeli@gmail.com</p>
+          <p>Địa chỉ : TP. Hồ Chí Minh</p>
+        </div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2026 CenDeli. Đặc sản miền Trung.</p></div>
+    </footer>
+    <script src="js/script.js"></script>
+    <script src="js/auth.js"></script>
+  </body>
+</html>
