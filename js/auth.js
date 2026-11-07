@@ -1,3 +1,6 @@
+/* CenDeli - Tài khoản người dùng (feature/auth): đăng ký, đăng nhập, đăng xuất, hồ sơ, lịch sử đơn hàng.
+   Dữ liệu lưu trong localStorage, tên trường theo DB_CenDeli.sql.
+   Thêm file này vào MỌI trang (sau js/script.js) để header hiện trạng thái đăng nhập. */
 (function () {
   const K = { users: "cendeli_users", cur: "cendeli_currentUser", orders: "cendeli_orders", addr: "cendeli_addresses" };
   const $ = (s, r = document) => r.querySelector(s);
@@ -10,6 +13,7 @@
   const now = () => new Date().toISOString();
   const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/, PHONE = /^(0|\+84)\d{9,10}$/;
 
+  /* ---------- Biểu tượng ---------- */
   const SV = (d) => `<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
   const ICON = {
     user: SV('<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>'),
@@ -26,6 +30,7 @@
     coin: SV('<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M16 15h2"/>'),
   };
 
+  /* ---------- Dữ liệu mẫu (lấy từ DB_CenDeli.sql) ---------- */
   function seed() {
     if (!get(K.users)) set(K.users, [
       { id: 1, fullName: "Quản trị CenDeli", email: "admin@cendeli.vn", phone: "0900000001", password: "Admin1234", role: "admin", status: "active", marketingConsent: false },
@@ -37,7 +42,7 @@
       { id: 1, userId: 2, receiver: "Nguyễn Hoàng Châu", phone: "0900000002", line: "12 Nguyễn Văn Linh", ward: "Tân Thuận Tây", district: "Quận 7", city: "TP. Hồ Chí Minh", isDefault: true },
       { id: 2, userId: 3, receiver: "Lê Nhật Nam", phone: "0900000003", line: "45 Lê Lợi", ward: "Bến Thành", district: "Quận 1", city: "TP. Hồ Chí Minh", isDefault: true },
     ];
-
+    /* Tên người nhận đã đổi cho KHỚP tên tài khoản (trước đây là "Nguyễn Văn An", "Lê Thị Bình") */
     const SEED_ORDERS = [
       { id: 1, code: "CD20261030001", userId: 2, subtotal: 140000, discount: 0, shipping: 25000, total: 165000, payment: "cod", paid: "paid", status: "completed", carrier: "GHTK", tracking: "GHTK000111", createdAt: "2026-10-30 10:15",
         receiver: "Nguyễn Hoàng Châu", rphone: "0900000002", address: "12 Nguyễn Văn Linh, Tân Thuận Tây, Quận 7, TP.HCM",
@@ -52,6 +57,7 @@
         history: [["pending", "Khách đặt hàng", "2026-11-02 09:00"]],
         items: [["Mực Xé Sợi Hấp Bơ Tỏi", 127500, 1], ["Cá Đéc / Cá Khoai Rim Cay Ngọt", 76500, 1]] },
     ];
+    /* Đồng bộ đơn mẫu: nếu máy đã lưu bản cũ thì thay 3 đơn mẫu, giữ nguyên các đơn khác */
     const DBV = 4;
     /* Địa chỉ mẫu (id 1, 2) được nạp lại khi đổi phiên bản; địa chỉ khách tự thêm (id > 2) được giữ nguyên */
     if (!get(K.addr)) set(K.addr, SEED_ADDR);
@@ -76,7 +82,10 @@
     box.prepend(w);
   }
 
+  /* Nút đăng xuất ở sidebar (và bất kỳ nút nào có data-logout) */
   document.addEventListener("click", (e) => { if (e.target.closest("[data-logout]")) { e.preventDefault(); logout(); } });
+
+  /* ---------- Biểu tượng trong ô nhập + nút hiện/ẩn mật khẩu ---------- */
   const FIELD_ICON = { fullName: "user", receiver: "user", email: "mail", phone: "phone", password: "lock", old: "lock", pw: "lock", confirm: "lock", line: "pin", ward: "pin", district: "pin", city: "pin" };
   function enhance(root) {
     root.querySelectorAll(".field input").forEach((i) => {
@@ -92,6 +101,7 @@
       w.appendChild(b);
     });
   }
+
   /* ---------- Kiểm tra dữ liệu nhập ---------- */
   const clr = (f) => { f.querySelectorAll(".field-error").forEach((s) => (s.textContent = "")); f.querySelectorAll("input.invalid").forEach((i) => i.classList.remove("invalid")); const m = $(".form-msg", f); if (m) { m.textContent = ""; m.className = "form-msg"; } };
   const err = (i, t) => { i.classList.add("invalid"); const s = i.closest(".field").querySelector(".field-error"); s.textContent = t; };
@@ -145,6 +155,7 @@
     };
   }
 
+  /* ---------- Khung tài khoản dùng chung (menu bên trái) ---------- */
   function sideCard(me, active, n, asTabs) {
     const items = [["info", "user", "Thông tin cá nhân", "ho-so.html", ""], ["pw", "lock", "Đổi mật khẩu", "ho-so.html#mat-khau", ""], ["addr", "pin", "Địa chỉ", "ho-so.html#dia-chi", `<em>${n}</em>`], ["orders", "bag", "Lịch sử đơn hàng", "lich-su-don-hang.html", ""]];
     const nav = items.map(([id, ic, label, href, extra]) => {
@@ -224,7 +235,7 @@
           set(K.addr, get(K.addr, []).map((a) => (a.userId === me.id ? { ...a, isDefault: a.id == b.dataset.def } : a))); draw(); }));
       }
     };
-  
+    /* Bấm link "Đổi mật khẩu" / "Sổ địa chỉ" khi đang ở trang hồ sơ thì tự đổi tab */
     window.addEventListener("hashchange", () => { const t = fromHash(); if (t !== tab) { tab = t; adding = false; draw(); } });
     draw();
   }
@@ -275,10 +286,10 @@
     const addrCount = get(K.addr, []).filter((a) => a.userId === u.id).length;
     const draw = (f) => {
       const t = TABS.find((x) => x[0] === f), list = all.filter(t[2]);
-      root.innerHTML = sideCard(u, "orders", addrCount) + `<div class="acc-main"><div class="orders-head"><h1>Lịch sử đơn hàng</h1><p>Theo dõi và xem lại các đơn bạn đã đặt tại CenDeli.</p></div>
+      root.innerHTML = sideCard(u, "orders", addrCount) + `<section class="auth-card acc-panel orders-panel"><div class="panel-title"><span class="ph-ico">${ICON.bag}</span><div><h2>Lịch sử đơn hàng</h2><p class="auth-sub">Theo dõi và xem lại các đơn bạn đã đặt tại CenDeli.</p></div></div>
         <div class="stats">${stat("bag", all.length, "Tổng số đơn")}${stat("clock", active, "Đang xử lý / giao")}${stat("ok", all.filter(TABS[3][2]).length, "Đã hoàn tất")}${stat("coin", money(spent), "Tổng chi tiêu")}</div>
         <div class="tabs">${TABS.map(([k, l, fn]) => `<button type="button" class="${k === f ? "on" : ""}" data-f="${k}">${l} <span>${all.filter(fn).length}</span></button>`).join("")}</div>
-        <div class="order-list">${list.length ? list.map((o) => card(o, false)).join("") : `<div class="auth-card empty">${all.length ? "Không có đơn nào ở mục này." : "Bạn chưa có đơn hàng nào."}<br><br><a class="btn btn-primary" href="san-pham.html">Xem sản phẩm</a></div>`}</div></div>`;
+        <div class="order-list">${list.length ? list.map((o) => card(o, false)).join("") : `<div class="empty">${all.length ? "Không có đơn nào ở mục này." : "Bạn chưa có đơn hàng nào."}<br><br><a class="btn btn-primary" href="san-pham.html">Xem sản phẩm</a></div>`}</div></section>`;
       root.querySelectorAll(".tabs button").forEach((b) => (b.onclick = () => draw(b.dataset.f)));
     };
     draw("all");

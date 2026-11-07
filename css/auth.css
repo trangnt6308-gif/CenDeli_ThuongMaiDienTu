@@ -1,3 +1,7 @@
+/* CenDeli - Tài khoản người dùng (feature/auth). Dùng biến màu của style.css
+   Đã sắp xếp lại: toàn bộ @media nằm CUỐI file để không bị khai báo phía sau ghi đè. */
+
+/* ===== Reset an toàn (phòng khi style.css chưa có reset) ===== */
 .auth-main,
 .auth-main *,
 .auth-main *::before,
@@ -51,6 +55,7 @@
 .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; background: #f6e3c3; color: var(--brick-dark); margin-left: 6px; }
 .empty { text-align: center; color: var(--muted); padding: 30px 0; }
 
+/* ===== Đăng nhập / đăng ký: khung 2 phần ===== */
 .auth-card.split { display: grid; grid-template-columns: 5fr 6fr; max-width: 1000px; padding: 0; overflow: hidden; }
 .auth-form { padding: 38px 40px; display: flex; flex-direction: column; justify-content: center; }
 .auth-side { position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 28px; padding: 34px; color: #fff; background: linear-gradient(150deg, var(--brick-dark), var(--brick) 62%, #c4693f); overflow: hidden; }
@@ -67,6 +72,7 @@
 .side-pics img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .auth-side .side-note { margin-top: -8px; font-size: 12.5px; font-weight: 700; letter-spacing: .5px; color: var(--gold-light); }
 
+/* ===== Hồ sơ + lịch sử đơn: menu trái, nội dung phải ===== */
 .account { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 24px; max-width: 1240px; margin: 0 auto; align-items: stretch; }
 .account .auth-card { margin: 0; max-width: none; }
 .auth-card.side-card { padding: 0; overflow: hidden; text-align: center; display: flex; flex-direction: column; }
@@ -121,6 +127,10 @@
 #addrForm h3 { color: var(--brown); font-size: 16px; margin-bottom: 12px; }
 
 /* ===== Lịch sử đơn hàng ===== */
+.orders-panel { display: grid; gap: 20px; align-content: start; }
+.orders-panel .panel-title { margin-bottom: 0; }
+.orders-panel .stat { background: var(--cream); }
+.orders-panel .tabs button { background: var(--white); }
 .orders-head h1 { font-family: var(--font-heading); color: var(--brown); font-size: 32px; line-height: 1.2; }
 .orders-head p { color: var(--muted); font-size: 14px; margin-top: 4px; }
 .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; }
@@ -202,9 +212,11 @@
 .sum small { color: var(--muted); font-size: 12.5px; line-height: 1.6; }
 .sum .btn { margin-top: 4px; }
 
+/* ===== Header: nút Xin chào / Đăng xuất do auth.js thêm vào ===== */
 .user-box { display: inline-flex; gap: 9px; }
-.header-actions .user-box .btn { display: inline-flex; } 
+.header-actions .user-box .btn { display: inline-flex; } /* style.css ẩn .btn ở mobile, ở đây giữ lại */
 
+/* ===== RESPONSIVE (luôn đặt cuối file) ===== */
 @media (min-width: 801px) {
   .auth-card.split { min-height: 560px; }
 }
