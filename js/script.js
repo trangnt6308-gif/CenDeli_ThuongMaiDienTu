@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return 0;
     }
   }
-  
+
   if (cartCountElement) {
     cartCountElement.textContent = getCartCount();
   }

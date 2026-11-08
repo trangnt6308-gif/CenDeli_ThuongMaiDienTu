@@ -4,7 +4,16 @@
 --  "CenDeli - Gói trọn vị miền Trung, gửi gắm vị quê nhà"
 --
 
-IF DB_ID(N'CenDeli') IS NULL CREATE DATABASE CenDeli COLLATE Vietnamese_CI_AI;
+
+USE master;
+GO
+IF DB_ID(N'CenDeli') IS NOT NULL
+BEGIN
+    ALTER DATABASE CenDeli SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE CenDeli;
+END
+GO
+CREATE DATABASE CenDeli COLLATE Vietnamese_CI_AI;
 GO
 USE CenDeli;
 GO
@@ -20,7 +29,7 @@ CREATE TABLE users (
     password_hash NVARCHAR(255) NOT NULL,                 -- KHÔNG lưu mật khẩu thô
     role          NVARCHAR(20)  NOT NULL DEFAULT 'customer' CHECK (role IN ('customer','admin')),   -- phân quyền
     status        NVARCHAR(20)  NOT NULL DEFAULT 'active'   CHECK (status IN ('active','locked')),  -- admin có thể khóa tài khoản
-    marketing_consent BIT       NOT NULL DEFAULT 0,       -- 1 = khách đồng ý nhận tin khuyến mãi (Nghị định 13/2023)
+    marketing_consent BIT       NOT NULL DEFAULT 0,       -- 1 = khách đồng ý nhận tin khuyến mãi (Luật Bảo vệ dữ liệu cá nhân 2025)
     consent_at    DATETIME2(0)  NULL,                     -- thời điểm khách đồng ý
     created_at    DATETIME2(0)  NOT NULL DEFAULT SYSDATETIME(),
     updated_at    DATETIME2(0)  NOT NULL DEFAULT SYSDATETIME()
@@ -153,7 +162,7 @@ CREATE TABLE orders (
     coupon_discount  INT NOT NULL DEFAULT 0,
     shipping_fee     INT NOT NULL DEFAULT 0,
     total            INT NOT NULL,                        -- = subtotal - coupon_discount + shipping_fee
-    payment_method   NVARCHAR(20) NOT NULL DEFAULT 'cod'     CHECK (payment_method IN ('cod','bank_transfer','ewallet')),            -- cod = thanh toán khi nhận hàng
+    payment_method   NVARCHAR(20) NOT NULL DEFAULT 'cod'     CHECK (payment_method IN ('cod','bank_transfer')),            -- cod = thanh toán khi nhận hàng
     payment_status   NVARCHAR(20) NOT NULL DEFAULT 'unpaid'  CHECK (payment_status IN ('unpaid','paid','refunded')),
     order_status     NVARCHAR(20) NOT NULL DEFAULT 'pending' CHECK (order_status IN ('pending','confirmed','shipping','completed','cancelled')),
     shipping_carrier NVARCHAR(30) NULL,                   -- SPX Express / GHTK / GHN / Viettel Post
@@ -292,13 +301,13 @@ GO
 --  DỮ LIỆU MẪU
 -- =====================================================================
 
--- Người dùng (mật khẩu mẫu: Admin@123, băm bcrypt)
+-- Người dùng (mật khẩu đã băm bcrypt, mật khẩu gốc ghi ở đầu file)
 SET IDENTITY_INSERT users ON;
 INSERT INTO users (id, full_name, email, phone, password_hash, role, marketing_consent, consent_at) VALUES
-(1, N'Quản trị CenDeli', N'admin@cendeli.vn',  N'0900000001', N'Admin1234', N'admin',    0, NULL),
-(2, N'Nguyễn Hoàng Châu',    N'khach1@cendeli.vn', N'0900000002', N'Khach111@@', N'customer', 1, '2026-10-30 10:00:00'),
-(3, N'Lê Nhật Nam',      N'khach2@cendeli.vn', N'0900000003', N'Khach222@@', N'customer', 0, NULL),
-(4, N'Trần Minh Hoàng',   N'khach3@cendeli.vn', N'0900000004', N'Khach333@@', N'customer', 0, NULL);
+(1, N'Quản trị CenDeli', N'admin@cendeli.vn',  N'0900000001', N'$2b$10$TJ7eQ2pCt/xibhJNwRlLY.cuX1CY4COsacH1nrNtDeMqC4DZVdaSi', N'admin',    0, NULL),
+(2, N'Nguyễn Hoàng Châu',    N'khach1@cendeli.vn', N'0900000002', N'$2b$10$R5n4iINy.zQBkwLsSnb07.trmaGH6oGfdE5zgx.Qz.27RnhG0nh4K', N'customer', 1, '2026-10-30 10:00:00'),
+(3, N'Lê Nhật Nam',      N'khach2@cendeli.vn', N'0900000003', N'$2b$10$rqxPHv41wJf22jLYitb5m.TB8sgD0qO/out.NSU3k.9Q.xyVuL7LG', N'customer', 0, NULL),
+(4, N'Trần Minh Hoàng',   N'khach3@cendeli.vn', N'0900000004', N'$2b$10$4lKzJCRipVsVAJjNiyttE.HXucT.UpbHm2W8.8mbwWOsqkdkpkRCO', N'customer', 0, NULL);
 SET IDENTITY_INSERT users OFF;
 
 INSERT INTO user_addresses (user_id, receiver_name, phone, address_line, ward, district, city, is_default) VALUES
@@ -316,8 +325,8 @@ INSERT INTO categories (id, name, slug, description, sort_order) VALUES
     N'Món mặn chuẩn vị quê, dùng ăn cơm hoặc chế biến món ăn gia đình', 3);
 SET IDENTITY_INSERT categories OFF;
 
--- 18 sản phẩm ; bánh tráng xoài có 2 quy cách trong cùng một sản phẩm.
 --   price = giá giảm (giá bán), old_price = giá gốc.
+--   Bánh tráng xoài có 2 cỡ túi (200g / 500g, giá khác nhau) nên tách thành 2 dòng sản phẩm.
 SET IDENTITY_INSERT products ON;
 INSERT INTO products
 (id, category_id, name, slug, short_desc, description, packaging, origin, usage_guide, shelf_life,
@@ -337,18 +346,25 @@ INSERT INTO products
  N'Ăn trực tiếp (sợi cá dẻo dai, thơm mặn ngọt cay đậm đà).',
  N'6 tháng ở nhiệt độ thường (đóng kín nắp sau khi mở).',
  'ambient', 1, 80750, 95000, 50, 0),
-(3, 1, N'Bánh Tráng Xoài Dẻo', N'banh-trang-xoai-deo',
+(3, 1, N'Bánh Tráng Xoài Dẻo (Túi 200g)', N'banh-trang-xoai-deo',
  N'Bánh tráng xoài chua ngọt tự nhiên, dẻo quánh, món ăn vặt văn phòng.',
  N'Nước cốt xoài chín cô đặc tráng mỏng phơi nắng. Vị chua ngọt tự nhiên, dẻo quánh, không chất bảo quản.',
- N'Túi zip 200g hoặc 500g', N'Cam Ranh - Nha Trang',
+ N'Túi zip 200g', N'Cam Ranh - Nha Trang',
  N'Xé dải ăn trực tiếp, là món ăn vặt văn phòng cực kỳ được ưa chuộng.',
  N'6 - 9 tháng ở nhiệt độ thường (bảo quản nơi khô ráo).',
  'ambient', 1, 25000, 30000, 80, 1),
+(4, 1, N'Bánh Tráng Xoài Dẻo (Túi 500g)', N'banh-trang-xoai-deo-500g',
+ N'Bánh tráng xoài chua ngọt tự nhiên, dẻo quánh, túi lớn tiết kiệm.',
+ N'Nước cốt xoài chín cô đặc tráng mỏng phơi nắng. Vị chua ngọt tự nhiên, dẻo quánh, không chất bảo quản.',
+ N'Túi zip 500g', N'Cam Ranh - Nha Trang',
+ N'Xé dải ăn trực tiếp, là món ăn vặt văn phòng cực kỳ được ưa chuộng.',
+ N'6 - 9 tháng ở nhiệt độ thường (bảo quản nơi khô ráo).',
+ 'ambient', 1, 50000, 55000, 60, 0),
 (5, 1, N'Bánh Tráng Dừa Nướng (10 cái)', N'banh-trang-dua-nuong-10-cai',
  N'Bánh tráng dừa nướng than giòn rụm, béo ngậy.',
  N'Bánh tráng bột gạo trộn nước cốt dừa, cơm dừa nạo và mè đen. Nướng trên than hồng cho giòn rụm, béo ngậy.',
  N'Túi zip kín, 10 cái/túi', N'Bình Định',
- N'Ăn trực tiếp ăn trực tiếp hoặc dùng kèm các món ăn khác.',
+ N'Ăn trực tiếp hoặc dùng kèm các món ăn khác.',
  N'2 - 3 tháng ở nhiệt độ thường (cần túi zip kín để tránh bị thiu/mềm bánh).',
  'ambient', 1, 55000, 60000, 60, 0),
 (6, 1, N'Mực Xé Sợi Hấp Bơ Tỏi', N'muc-xe-soi-hap-bo-toi',
@@ -453,25 +469,32 @@ INSERT INTO products
  'ambient', 0, 170000, 200000, 40, 0);
 SET IDENTITY_INSERT products OFF;
 
--- Ảnh sản phẩm: mỗi sản phẩm 3 ảnh. Đặt file vào /images/products/<slug>-1.jpg, -2.jpg, -3.jpg
--- (file Word chưa có ảnh nên đường dẫn là chỗ giữ sẵn, bỏ ảnh thật vào đúng tên là hiện)
 INSERT INTO product_images (product_id, image_url, is_primary, sort_order)
-SELECT id, CONCAT(N'/images/products/', slug, N'-1.jpg'), 1, 1 FROM products;
+SELECT id, CONCAT(N'image/', slug, N'-1.jpg'), 1, 1 FROM products;
 INSERT INTO product_images (product_id, image_url, is_primary, sort_order)
-SELECT id, CONCAT(N'/images/products/', slug, N'-2.jpg'), 0, 2 FROM products;
+SELECT id, CONCAT(N'image/', slug, N'-2.jpg'), 0, 2 FROM products;
 INSERT INTO product_images (product_id, image_url, is_primary, sort_order)
-SELECT id, CONCAT(N'/images/products/', slug, N'-3.jpg'), 0, 3 FROM products;
+SELECT id, CONCAT(N'image/', slug, N'-3.jpg'), 0, 3 FROM products;
 
--- Bảng coupons được giữ để có thể bổ sung mã giảm giá sau này nếu shop triển khai.
+-- Ảnh thật đã có trong thư mục image/ (ảnh chính của từng sản phẩm)
+UPDATE product_images SET image_url = N'image/ghesuarimme.png'   WHERE product_id = 1 AND sort_order = 1;
+UPDATE product_images SET image_url = N'image/cathieuque.png'    WHERE product_id = 2 AND sort_order = 1;
+UPDATE product_images SET image_url = N'image/banhtrangxoai.png' WHERE product_id = 3 AND sort_order = 1;
+UPDATE product_images SET image_url = N'image/mucxesoi.png'      WHERE product_id = 6 AND sort_order = 1;
+
+SET IDENTITY_INSERT coupons ON;
+INSERT INTO coupons (id, code, description, discount_type, discount_value, max_discount, min_order, first_order_only, usage_limit, used_count, is_active) VALUES
+(1, N'CenDeli10K',  N'Voucher tặng qua thiệp QR trong Gói Trải Nghiệm Hương Vị: giảm 10.000đ cho đơn bất kỳ', N'fixed', 10000, NULL, 0,      0, NULL, 1, 1),
+(2, N'CENDELI15K',  N'Giảm trực tiếp 15.000đ cho đơn hàng có giá trị từ 300.000đ trở lên',                   N'fixed', 15000, NULL, 300000, 0, NULL, 0, 1),
+(3, N'WELCOME15K',  N'Ưu đãi giảm 15.000đ cho ĐƠN HÀNG ĐẦU TIÊN (áp dụng cho đơn từ 300.000đ)',                N'fixed', 15000, NULL, 300000, 1, NULL, 0, 1);
+SET IDENTITY_INSERT coupons OFF;
 
 -- Cấu hình chung
 INSERT INTO settings (setting_key, setting_value, description) VALUES
 (N'shipping_fee',         N'25000',  N'Phí vận chuyển mặc định (VNĐ)'),
 (N'free_ship_threshold',  N'300000', N'Miễn phí vận chuyển khi tiền hàng từ mức này (VNĐ)'),
 (N'low_stock_threshold',  N'10',     N'Cảnh báo sắp hết hàng khi tồn kho DƯỚI số này (theo quy định vận hành của kế hoạch)'),
-(N'return_hours',         N'48',     N'Thời hạn hỗ trợ đổi 1 đổi 1 trong vòng 48 giờ kể từ khi nhận hàng'),
-(N'order_discount_threshold', N'200000', N'Đơn hàng trên 200.000đ được giảm 15.000đ'),
-(N'order_discount_amount', N'15000', N'Số tiền giảm trực tiếp cho đơn hàng đủ điều kiện'),
+(N'return_days',          N'7',      N'Số ngày được đổi trả 1 đổi 1 kể từ khi nhận hàng'),
 (N'shipping_carriers',    N'SPX Express, GHTK, GHN, Viettel Post', N'Các đơn vị vận chuyển đối tác'),
 (N'store_name',           N'CenDeli - Gói trọn vị miền Trung', N'Tên cửa hàng'),
 (N'store_address',        N'TP. Hồ Chí Minh (cập nhật địa chỉ kho mini thực tế)', N'Địa chỉ hiển thị ở trang liên hệ'),
@@ -486,18 +509,18 @@ INSERT INTO orders
 (id, order_code, user_id, receiver_name, receiver_phone, shipping_address, subtotal, coupon_id, coupon_discount, shipping_fee, total,
  payment_method, payment_status, order_status, shipping_carrier, tracking_code, created_at) VALUES
 -- Đơn 1: 140.000 + ship 25.000 (dưới 300k nên tính ship) = 165.000
-(1, N'CD20261030001', 2, N'Nguyễn Văn An', N'0900000002', N'12 Nguyễn Văn Linh, Tân Thuận Tây, Quận 7, TP.HCM',
+(1, N'CD20261030001', 2, N'Nguyễn Hoàng Châu', N'0900000002', N'12 Nguyễn Văn Linh, Tân Thuận Tây, Quận 7, TP.HCM',
  140000, NULL, 0,     25000, 165000, N'cod',           N'paid',   N'completed', N'GHTK',        N'GHTK000111', '2026-10-30 10:15:00'),
 -- Đơn 2: 361.250 (từ 300k nên miễn ship) - voucher CenDeli10K 10.000 = 351.250
-(2, N'CD20261101001', 3, N'Lê Thị Bình',   N'0900000003', N'45 Lê Lợi, Bến Thành, Quận 1, TP.HCM',
- 361250, NULL, 0, 0, 361250, N'bank_transfer', N'paid',   N'completed', N'SPX Express', N'SPX000222',  '2026-11-01 14:30:00'),
+(2, N'CD20261101001', 3, N'Lê Nhật Nam',   N'0900000003', N'45 Lê Lợi, Bến Thành, Quận 1, TP.HCM',
+ 361250, 1,    10000, 0,     351250, N'bank_transfer', N'paid',   N'completed', N'SPX Express', N'SPX000222',  '2026-11-01 14:30:00'),
 -- Đơn 3: 204.000 + ship 25.000 = 229.000 (đang chờ xử lý)
-(3, N'CD20261102001', 2, N'Nguyễn Văn An', N'0900000002', N'12 Nguyễn Văn Linh, Tân Thuận Tây, Quận 7, TP.HCM',
+(3, N'CD20261102001', 2, N'Nguyễn Hoàng Châu', N'0900000002', N'12 Nguyễn Văn Linh, Tân Thuận Tây, Quận 7, TP.HCM',
  204000, NULL, 0,     25000, 229000, N'cod',           N'unpaid', N'pending',   NULL,           NULL,          '2026-11-02 09:00:00');
 SET IDENTITY_INSERT orders OFF;
 
 INSERT INTO order_items (order_id, product_id, product_name, unit_price, quantity, line_total) VALUES
-(1, 3,  N'Bánh Tráng Xoài Dẻo',        25000,  2, 50000),
+(1, 3,  N'Bánh Tráng Xoài Dẻo (Túi 200g)',        25000,  2, 50000),
 (1, 14, N'Mắm Nêm Pha Sẵn Chuẩn Vị Xứ Quảng',     25000,  1, 25000),
 (1, 8,  N'Bánh Tráng Mắm Ruốc (Túi 10 cái)',      65000,  1, 65000),
 (2, 11, N'Bò Một Nắng Muối Kiến Vàng',            97750,  1, 97750),
@@ -534,18 +557,18 @@ INSERT INTO reviews (product_id, user_id, parent_id, rating, content) VALUES
 -- Liên hệ / feedback mẫu
 INSERT INTO contacts (user_id, type, name, email, phone, subject, message) VALUES
 (3, N'feedback', N'Lê Nhật Nam', N'khach2@cendeli.vn', N'0900000003', N'Góp ý giao diện',
- N'Website dễ dùng và tiện ích , mong shop bổ sung thêm nhiều món đặc sản miền Trung hơnn.');
+ N'Website dễ dùng và tiện ích, mong shop bổ sung thêm nhiều món đặc sản miền Trung hơn.');
 
 -- Trang chính sách (nội dung theo Kế hoạch kinh doanh, nhóm chỉnh lại nếu cần)
 INSERT INTO pages (slug, title, content) VALUES
 (N'chinh-sach-doi-tra', N'Chính sách đổi trả',
- N'<h2>Chính sách đổi trả</h2><ul><li>Hỗ trợ <b>1 đổi 1 trong vòng 48 giờ</b> kể từ khi nhận hàng nếu sản phẩm lỗi bao bì, móp vỡ, giao sai/thiếu sản phẩm hoặc chất lượng không đạt yêu cầu.</li><li>Khi phát sinh lỗi, vui lòng cung cấp hình ảnh hoặc video mở hộp làm bằng chứng, gửi qua mục Liên hệ.</li><li>Với hàng cần bảo quản mát/đông lạnh, vui lòng kiểm tra tình trạng sản phẩm ngay khi nhận hàng.</li><li>Không áp dụng đổi trả với sản phẩm đã mở và sử dụng do thay đổi sở thích cá nhân.</li></ul>'),
+ N'<h2>Chính sách đổi trả</h2><ul><li>Hỗ trợ <b>1 đổi 1 miễn phí trong 7 ngày</b> kể từ khi nhận hàng nếu sản phẩm lỗi bao bì, móp vỡ, giao sai/thiếu sản phẩm hoặc chất lượng không đạt yêu cầu.</li><li>Khi phát sinh lỗi, vui lòng cung cấp hình ảnh hoặc video mở hộp làm bằng chứng, gửi qua mục Liên hệ.</li><li>Với hàng cần bảo quản mát/đông lạnh, vui lòng kiểm tra tình trạng sản phẩm ngay khi nhận hàng.</li><li>Không áp dụng đổi trả với sản phẩm đã mở và sử dụng do thay đổi sở thích cá nhân.</li></ul>'),
 (N'chinh-sach-bao-hanh', N'Chính sách bảo hành',
  N'<h2>Cam kết chất lượng</h2><ul><li>Sản phẩm có nguồn gốc rõ ràng, nhãn mác và hạn sử dụng in trên bao bì.</li><li>Cam kết chất lượng đến hết hạn sử dụng khi bảo quản đúng hướng dẫn trên từng sản phẩm.</li><li>Hỗ trợ giải quyết khiếu nại về chất lượng sản phẩm qua hotline và email của cửa hàng.</li></ul>'),
 (N'chinh-sach-van-chuyen', N'Chính sách vận chuyển',
- N'<h2>Chính sách vận chuyển</h2><ul><li>Giao hàng toàn quốc qua các đơn vị vận chuyển đối tác: SPX Express, GHTK, GHN, Viettel Post.</li><li>Nội thành TP.HCM và Hà Nội: 1-2 ngày; các tỉnh thành khác: 2-5 ngày.</li><li>Phí vận chuyển 25.000đ, miễn phí cho đơn từ 300.000đ.</li><li>Sản phẩm được đóng gói hút chân không, bọc xốp nổ chống sốc trong thùng carton; hàng cần bảo quản mát/đông lạnh được đóng kèm đá gel để giữ lạnh trong quá trình vận chuyển.</li><li></li></ul>'),
+ N'<h2>Chính sách vận chuyển</h2><ul><li>Giao hàng toàn quốc qua các đơn vị vận chuyển đối tác: SPX Express, GHTK, GHN, Viettel Post.</li><li>Nội thành TP.HCM và Hà Nội: 1-2 ngày; các tỉnh thành khác: 2-5 ngày.</li><li>Phí vận chuyển 25.000đ, miễn phí cho đơn từ 300.000đ.</li><li>Sản phẩm được đóng gói hút chân không, bọc xốp nổ chống sốc trong thùng carton; hàng cần bảo quản mát/đông lạnh được đóng kèm đá gel để giữ lạnh trong quá trình vận chuyển.</li><li>Mỗi đơn hàng kèm Gói Trải Nghiệm Hương Vị (mẫu thử và thiệp cảm ơn có mã QR).</li></ul>'),
 (N'chinh-sach-bao-mat', N'Chính sách bảo mật thông tin',
- N'<h2>Chính sách bảo mật thông tin</h2><ul><li>CenDeli chỉ thu thập thông tin cần thiết để xử lý đơn hàng và chăm sóc khách hàng (họ tên, số điện thoại, địa chỉ, email).</li><li>Thông tin được bảo vệ theo Nghị định 13/2023/NĐ-CP về bảo vệ dữ liệu cá nhân và không chia sẻ cho bên thứ ba ngoài đơn vị vận chuyển.</li><li>CenDeli chỉ gửi tin khuyến mãi khi khách hàng đồng ý, và khách có thể từ chối nhận bất cứ lúc nào.</li></ul>');
+ N'<h2>Chính sách bảo mật thông tin</h2><ul><li>CenDeli chỉ thu thập thông tin cần thiết để xử lý đơn hàng và chăm sóc khách hàng (họ tên, số điện thoại, địa chỉ, email).</li><li>Thông tin được bảo vệ theo Luật Bảo vệ dữ liệu cá nhân 2025 (số 91/2025/QH15) và không chia sẻ cho bên thứ ba ngoài đơn vị vận chuyển.</li><li>CenDeli chỉ gửi tin khuyến mãi khi khách hàng đồng ý, và khách có thể từ chối nhận bất cứ lúc nào.</li></ul>');
 GO
 
 -- Kiểm tra nhanh sau khi chạy xong
