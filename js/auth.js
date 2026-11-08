@@ -244,7 +244,7 @@
   function ordersPage() {
     const u = requireLogin(); if (!u) return;
     const ST = { pending: "Chờ xử lý", confirmed: "Đã xác nhận", shipping: "Đang giao", completed: "Hoàn tất", cancelled: "Đã hủy" };
-    const PAY = { cod: "Thanh toán khi nhận hàng", bank_transfer: "Chuyển khoản" }, PS = { unpaid: "Chưa thanh toán", paid: "Đã thanh toán", refunded: "Đã hoàn tiền" };
+    const PAY = { cod: "Thanh toán khi nhận hàng", bank_transfer: "Chuyển khoản", ewallet: "Ví MoMo / ZaloPay" }, PS = { unpaid: "Chưa thanh toán", paid: "Đã thanh toán", refunded: "Đã hoàn tiền" };
     const FLOW = ["pending", "confirmed", "shipping", "completed"];
     const IMG = { "Ghẹ Sữa Rim Me / Rim Cay": "ghesuarimme.png", "Cá Thiều Que Tẩm Gia Vị": "cathieuque.png", "Bánh Tráng Xoài Dẻo": "banhtrangxoai.png", "Bánh Tráng Dừa Nướng (10 cái)": "banhtrangduanuong.jpg",
       "Mực Xé Sợi Hấp Bơ Tỏi": "mucxesoi.png", "Khô Cá Mai Chanh Tuyết / Tẩm Gia Vị": "khocamai.jpg", "Bánh Tráng Mắm Ruốc (Túi 10 cái)": "banhtrangmamruoc.jpg", "Chả Cá Quy Nhơn / Nha Trang (Chiên & Hấp)": "chaca.jpg",

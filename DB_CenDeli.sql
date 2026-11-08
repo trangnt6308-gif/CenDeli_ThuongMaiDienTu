@@ -153,7 +153,7 @@ CREATE TABLE orders (
     coupon_discount  INT NOT NULL DEFAULT 0,
     shipping_fee     INT NOT NULL DEFAULT 0,
     total            INT NOT NULL,                        -- = subtotal - coupon_discount + shipping_fee
-    payment_method   NVARCHAR(20) NOT NULL DEFAULT 'cod'     CHECK (payment_method IN ('cod','bank_transfer')),            -- cod = thanh toán khi nhận hàng
+    payment_method   NVARCHAR(20) NOT NULL DEFAULT 'cod'     CHECK (payment_method IN ('cod','bank_transfer','ewallet')),            -- cod = thanh toán khi nhận hàng
     payment_status   NVARCHAR(20) NOT NULL DEFAULT 'unpaid'  CHECK (payment_status IN ('unpaid','paid','refunded')),
     order_status     NVARCHAR(20) NOT NULL DEFAULT 'pending' CHECK (order_status IN ('pending','confirmed','shipping','completed','cancelled')),
     shipping_carrier NVARCHAR(30) NULL,                   -- SPX Express / GHTK / GHN / Viettel Post
