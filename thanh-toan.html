@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Đặt hàng | CenDeli</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap&subset=vietnamese" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+    <link rel="stylesheet" href="css/cart.css" />
+  </head>
+  <body data-page="checkout">
+    <header class="header">
+      <div class="container header-inner">
+        <a class="brand" href="index.html">
+          <img class="brand-logo" src="logo.png" alt="Logo CenDeli" onerror="this.style.display = 'none'; this.nextElementSibling.style.display = 'flex';" />
+          <span class="brand-mark">C</span>
+          <span class="brand-text"><strong>CenDeli</strong><small>ĐẶC SẢN MIỀN TRUNG</small></span>
+        </a>
+
+        <nav class="main-nav" id="mainNav">
+          <a class="nav-link" href="index.html">Trang chủ</a>
+          <div class="nav-item">
+            <a class="nav-link" href="index.html#danh-muc">Danh mục <span class="chev">&#9662;</span></a>
+            <div class="dropdown">
+              <a href="san-pham.html?category=1">Đồ ăn liền, nhấm nháp</a>
+              <a href="san-pham.html?category=2">Thịt &amp; đồ lên men truyền thống</a>
+              <a href="san-pham.html?category=3">Hải sản khô &amp; mắm vùng miền</a>
+            </div>
+          </div>
+          <a class="nav-link" href="index.html#san-pham">Sản phẩm</a>
+          <a class="nav-link" href="index.html#gioi-thieu">Giới thiệu</a>
+          <a class="nav-link" href="index.html#lien-he">Liên hệ</a>
+          <a class="nav-link" href="index.html#chinh-sach">Chính sách</a>
+        </nav>
+
+        <div class="header-actions">
+          <a class="btn btn-outline btn-small" href="dang-nhap.html">Đăng nhập</a>
+          <a class="btn btn-primary btn-small" href="dang-ky.html">Đăng ký</a>
+          <a class="cart-link" href="gio-hang.html">Giỏ hàng <span id="cartCount">0</span></a>
+          <button class="menu-toggle" id="menuToggle" aria-label="Mở menu" aria-expanded="false"><span></span><span></span><span></span></button>
+        </div>
+      </div>
+    </header>
+
+    <main class="cart-main">
+      <div class="container">
+        <p class="crumbs"><a href="index.html">Trang chủ</a> / <a href="gio-hang.html">Giỏ hàng</a> / Đặt hàng</p>
+        <h1>Đặt hàng</h1>
+        <p class="cart-sub">Điền thông tin nhận hàng và chọn cách thanh toán.</p>
+
+        <div class="cart-layout">
+          <section class="cart-card">
+            <form id="checkoutForm" novalidate>
+              <div class="co-block">
+                <h3>1. Thông tin nhận hàng</h3>
+                <div id="addrPick">
+                  <select id="addrSelect" class="co-select" aria-label="Chọn địa chỉ đã lưu"></select>
+                </div>
+                <div class="grid2">
+                  <div class="field"><label for="receiver">Họ tên người nhận</label><input id="receiver" name="receiver" autocomplete="name" /><small class="field-error"></small></div>
+                  <div class="field"><label for="phone">Số điện thoại</label><input id="phone" name="phone" type="tel" autocomplete="tel" /><small class="field-error"></small></div>
+                  <div class="field full"><label for="email">Email (không bắt buộc)</label><input id="email" name="email" type="email" autocomplete="email" /><small class="field-error"></small></div>
+                  <div class="field full"><label for="line">Số nhà, tên đường</label><input id="line" name="line" autocomplete="address-line1" /><small class="field-error"></small></div>
+                  <div class="field"><label for="ward">Phường / xã</label><input id="ward" name="ward" /><small class="field-error"></small></div>
+                  <div class="field"><label for="district">Quận / huyện</label><input id="district" name="district" /><small class="field-error"></small></div>
+                  <div class="field full"><label for="city">Tỉnh / thành phố</label><input id="city" name="city" /><small class="field-error"></small></div>
+                  <div class="field full"><label for="note">Ghi chú cho đơn hàng (không bắt buộc)</label><textarea id="note" name="note" placeholder="Ví dụ: giao giờ hành chính, gọi trước khi giao..."></textarea><small class="field-error"></small></div>
+                </div>
+                <label class="check" id="saveAddrRow" hidden><input type="checkbox" name="saveAddr" /> Lưu địa chỉ này vào sổ địa chỉ của tôi</label>
+              </div>
+
+              <div class="co-block">
+                <h3>2. Phương thức thanh toán</h3>
+                <label class="pay-opt"><input type="radio" name="payment" value="cod" checked /><span class="pay-text"><strong>Thanh toán khi nhận hàng (COD)</strong><small>Thanh toán bằng tiền mặt khi giao hàng.</small></span><svg class="pay-ico" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h4"/></svg></label>
+                <label class="pay-opt"><input type="radio" name="payment" value="bank_transfer" /><span class="pay-text"><strong>Chuyển khoản ngân hàng</strong><small>Chuyển khoản theo thông tin tài khoản của shop.</small></span><svg class="pay-ico" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9.5 12 4l9 5.5z"/><path d="M5.5 9.5V19M9.8 9.5V19M14.2 9.5V19M18.5 9.5V19M3 20h18"/></svg></label>
+                <label class="pay-opt"><input type="radio" name="payment" value="ewallet" /><span class="pay-text"><strong>Ví điện tử MoMo / ZaloPay</strong><small>Quét mã QR để thanh toán nhanh chóng.</small></span><svg class="pay-ico" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg></label>
+                <div class="pay-info" id="payInfo" hidden></div>
+              </div>
+
+              <p class="form-msg" role="alert" style="margin-top:16px"></p>
+            </form>
+          </section>
+
+          <aside class="cart-card summary" id="coSummary"></aside>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <a class="brand footer-logo" href="index.html">
+            <img class="brand-logo" src="logo.png" alt="Logo CenDeli" onerror="this.style.display = 'none'; this.nextElementSibling.style.display = 'flex';" />
+          <span class="brand-mark">C</span>
+            <span class="brand-text"><strong>CenDeli</strong><small>ĐẶC SẢN MIỀN TRUNG</small></span>
+          </a>
+          <p>Gói trọn vị miền Trung,<br />gửi gắm vị quê nhà.</p>
+        </div>
+        <div class="footer-column">
+          <h3>Khám phá</h3>
+          <a href="index.html#danh-muc">Danh mục</a>
+          <a href="index.html#san-pham">Sản phẩm</a>
+          <a href="gioi-thieu.html">Giới thiệu</a>
+        </div>
+        <div class="footer-column">
+          <h3>Hỗ trợ khách hàng</h3>
+          <a href="index.html#doi-tra">Chính sách đổi trả</a>
+          <a href="index.html#van-chuyen">Vận chuyển &amp; đóng gói</a>
+          <a href="index.html#bao-mat">Bảo mật thông tin</a>
+          <a href="index.html#bao-hanh">Bảo hành &amp; chất lượng</a>
+          <a href="lien-he.html">Liên hệ &amp; góp ý</a>
+        </div>
+        <div class="footer-column">
+          <h3>Liên hệ</h3>
+          <p>SĐT : 0357 668 998</p>
+          <p>Email : Cendeli@gmail.com</p>
+          <p>Địa chỉ : TP. Hồ Chí Minh</p>
+        </div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2026 CenDeli. Đặc sản miền Trung.</p></div>
+    </footer>
+    <script src="js/script.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+  </body>
+</html>

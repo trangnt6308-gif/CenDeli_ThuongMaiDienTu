@@ -165,13 +165,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function getCartCount() {
     try {
-      const count = Number(localStorage.getItem("cendeli_cart_count"));
-      return Number.isFinite(count) && count >= 0 ? count : 0;
+      // Giỏ hàng lưu ở khóa "cendeliCart" (cùng khóa với js/products.js và js/cart.js)
+      const cart = JSON.parse(localStorage.getItem("cendeliCart")) || [];
+      return cart.reduce(function (sum, item) {
+        return sum + (Number(item.quantity) || 0);
+      }, 0);
     } catch (error) {
       return 0;
     }
   }
-
+  
   if (cartCountElement) {
     cartCountElement.textContent = getCartCount();
   }
