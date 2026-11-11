@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản trị | CenDeli</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="js/products.js" defer></script><script src="js/admin.js" defer></script>
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="index.html"><img src="logo.png" alt="CenDeli"><span><b>CenDeli</b><small>ADMINISTRATION</small></span></a>
+    <div class="side-label">TỔNG QUAN</div>
+    <button class="nav-link active" data-page="dashboard"><span>▦</span> Dashboard</button>
+    <div class="side-label">QUẢN LÝ</div>
+    <button class="nav-link" data-page="products"><span>▣</span> Sản phẩm</button>
+    <button class="nav-link" data-page="orders"><span>▤</span> Đơn hàng</button>
+    <button class="nav-link" data-page="users"><span>♙</span> Người dùng</button>
+    <div class="sidebar-bottom"><div class="admin-mini"><div class="avatar">A</div><div><b id="adminName">Quản trị viên</b><small>Administrator</small></div></div><button id="logoutBtn" class="logout">↪ Đăng xuất</button><a class="back-link" href="index.html">← Quay lại website</a></div>
+  </aside>
+  <main class="main-area">
+    <header class="topbar"><button class="mobile-menu" id="mobileMenu">☰</button><div><p class="eyebrow">HỆ THỐNG QUẢN TRỊ CENDELI</p><h1 id="pageTitle">Dashboard</h1></div><div class="top-user"><span class="status-dot"></span> Đang hoạt động</div></header>
+    <div class="content">
+      <section class="page active" id="page-dashboard">
+        <div class="welcome"><div><h2>Xin chào, <span id="welcomeName">Admin</span>! 👋</h2><p>Dưới đây là tình hình kinh doanh của cửa hàng CenDeli.</p></div><span class="date-chip" id="todayLabel"></span></div>
+        <div class="stat-grid">
+          <article class="stat-card"><div class="stat-icon orange">▣</div><div><p>Tổng sản phẩm</p><strong id="statProducts">0</strong><small>Đang kinh doanh</small></div></article>
+          <article class="stat-card"><div class="stat-icon blue">▤</div><div><p>Tổng đơn hàng</p><strong id="statOrders">0</strong><small>Tất cả đơn đã đặt</small></div></article>
+          <article class="stat-card"><div class="stat-icon green">₫</div><div><p>Doanh thu ghi nhận</p><strong id="statRevenue">0đ</strong><small>Đơn đã hoàn tất</small></div></article>
+          <article class="stat-card"><div class="stat-icon purple">♙</div><div><p>Khách hàng</p><strong id="statUsers">0</strong><small>Tài khoản khách hàng</small></div></article>
+        </div>
+        <div class="dashboard-grid"><section class="panel chart-panel"><div class="panel-head"><div><h3>Đơn hàng theo trạng thái</h3><p>Tổng hợp tình trạng xử lý đơn hàng</p></div></div><div class="status-chart" id="statusChart"></div></section>
+        <section class="panel"><div class="panel-head"><div><h3>Đơn hàng gần đây</h3><p>Các đơn mới phát sinh</p></div><button class="text-btn" data-goto="orders">Xem tất cả →</button></div><div id="recentOrders" class="recent-list"></div></section></div>
+        <div class="dashboard-grid analytics-grid">
+          <section class="panel revenue-panel">
+            <div class="panel-head"><div><h3>Doanh thu 6 tháng gần nhất</h3><p>Chỉ tính các đơn hàng đã hoàn tất</p></div><span class="chart-note">VNĐ</span></div>
+            <div id="revenueChart" class="revenue-chart" role="img" aria-label="Biểu đồ doanh thu theo tháng"></div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><div><h3>Top 5 sản phẩm bán chạy</h3><p>Dựa trên số lượng sản phẩm trong đơn không bị hủy</p></div></div>
+            <div id="topSellingProducts" class="top-selling-list"></div>
+          </section>
+        </div>
+        <section class="panel top-products"><div class="panel-head"><div><h3>Sản phẩm trong cửa hàng</h3><p>Danh sách một số sản phẩm hiện có</p></div><button class="text-btn" data-goto="products">Quản lý sản phẩm →</button></div><div id="dashboardProducts" class="mini-products"></div></section>
+      </section>
+      <section class="page" id="page-products">
+        <div class="section-intro"><div><h2>Quản lý sản phẩm</h2><p>Thêm mới, chỉnh sửa thông tin và xóa sản phẩm khỏi cửa hàng.</p></div><button class="primary-btn" id="addProductBtn">＋ Thêm sản phẩm</button></div>
+        <div class="toolbar"><input id="productSearch" type="search" placeholder="Tìm theo tên sản phẩm..."><select id="categoryFilter"><option value="">Tất cả danh mục</option></select><span id="productCount" class="result-count"></span></div>
+        <div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>SẢN PHẨM</th><th>DANH MỤC</th><th>GIÁ GỐC</th><th>GIÁ BÁN</th><th>THAO TÁC</th></tr></thead><tbody id="productTable"></tbody></table></div></div>
+      </section>
+      <section class="page" id="page-orders">
+        <div class="section-intro"><div><h2>Quản lý đơn hàng</h2><p>Theo dõi đơn đặt hàng và cập nhật trạng thái xử lý.</p></div></div>
+        <div class="toolbar"><input id="orderSearch" type="search" placeholder="Tìm mã đơn hoặc tên người nhận..."><select id="orderStatusFilter"><option value="">Tất cả trạng thái</option><option value="pending">Chờ xác nhận</option><option value="confirmed">Đã xác nhận</option><option value="shipping">Đang giao</option><option value="completed">Hoàn tất</option><option value="cancelled">Đã hủy</option></select></div>
+        <div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>MÃ ĐƠN</th><th>NGƯỜI NHẬN</th><th>NGÀY ĐẶT</th><th>TỔNG TIỀN</th><th>THANH TOÁN</th><th>TRẠNG THÁI</th><th>CẬP NHẬT</th></tr></thead><tbody id="orderTable"></tbody></table></div></div>
+      </section>
+      <section class="page" id="page-users">
+        <div class="section-intro"><div><h2>Quản lý người dùng</h2><p>Xem tài khoản, vai trò và trạng thái hoạt động của thành viên.</p></div></div>
+        <div class="toolbar"><input id="userSearch" type="search" placeholder="Tìm theo tên hoặc email..."><select id="userRoleFilter"><option value="">Tất cả vai trò</option><option value="customer">Khách hàng</option><option value="admin">Quản trị viên</option></select></div>
+        <div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>NGƯỜI DÙNG</th><th>SỐ ĐIỆN THOẠI</th><th>VAI TRÒ</th><th>TRẠNG THÁI</th><th>THAO TÁC</th></tr></thead><tbody id="userTable"></tbody></table></div></div>
+      </section>
+    </div>
+  </main>
+</div>
+<dialog id="productDialog" class="product-dialog"><form id="productForm" method="dialog"><div class="dialog-head"><div><p class="eyebrow">CỬA HÀNG CENDELI</p><h2 id="dialogTitle">Thêm sản phẩm</h2></div><button type="button" class="close-btn" id="closeDialog">×</button></div><input type="hidden" id="editProductId"><label>Tên sản phẩm<input id="pName" required maxlength="120" placeholder="Nhập tên sản phẩm"></label><label>Danh mục<select id="pCategory" required><option>Đồ ăn liền</option><option>Thịt và đồ lên men truyền thống</option><option>Hải sản khô và mắm vùng miền</option></select></label><div class="form-row"><label>Giá gốc (VNĐ)<input id="pOriginal" type="number" min="0" required></label><label>Giá bán (VNĐ)<input id="pSale" type="number" min="0" required></label></div><label>Tên file hình ảnh<input id="pImage" placeholder="vd: banhtrangxoai.png"></label><label>Mô tả<textarea id="pDescription" rows="3" placeholder="Mô tả sản phẩm..."></textarea></label><p class="form-hint">Ảnh cần được đặt trong thư mục gốc của website để hiển thị đúng.</p><div class="dialog-actions"><button type="button" class="secondary-btn" id="cancelDialog">Hủy</button><button type="submit" class="primary-btn">Lưu sản phẩm</button></div></form></dialog>
+<dialog id="orderDialog" class="product-dialog"><div class="dialog-head"><div><p class="eyebrow">CHI TIẾT ĐƠN HÀNG</p><h2 id="orderDialogTitle">Đơn hàng</h2></div><button type="button" class="close-btn" id="closeOrderDialog">×</button></div><div id="orderDetails"></div></dialog>
+<div class="toast" id="toast" role="status"></div>
+</body></html>
+
