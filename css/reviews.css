@@ -1,0 +1,240 @@
+
+/* =====================================
+   CENDELI - PRODUCT REVIEWS
+===================================== */
+
+.reviews-section {
+    width: 100%;
+    margin: 40px auto;
+}
+
+.reviews-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    box-sizing: border-box;
+}
+
+.reviews-container h2 {
+    margin: 0 0 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    font-size: 26px;
+}
+
+.reviews-container h3 {
+    margin: 0 0 18px;
+    color: #333;
+    font-size: 19px;
+}
+
+/* Tổng quan đánh giá */
+
+.review-summary {
+    margin-bottom: 30px;
+    padding: 22px;
+    background: #fffaf3;
+    border: 1px solid #f3e4cc;
+    border-radius: 10px;
+}
+
+.review-average {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.review-average strong {
+    color: #b7791f;
+    font-size: 30px;
+}
+
+.review-average span:last-child {
+    color: #666;
+    font-size: 14px;
+}
+
+/* Sao đánh giá */
+
+.review-stars {
+    color: #f5a623;
+    font-size: 19px;
+    letter-spacing: 2px;
+}
+
+/* Form đánh giá */
+
+.review-form-container {
+    margin-bottom: 35px;
+    padding: 24px;
+    background: #fafafa;
+    border-radius: 10px;
+}
+
+.review-rating-input,
+.review-content-input {
+    margin-bottom: 20px;
+}
+
+.review-rating-input label,
+.review-content-input label {
+    display: block;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: 600;
+}
+
+.star-selector {
+    display: flex;
+    gap: 5px;
+}
+
+.star-btn {
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #ccc;
+    font-size: 32px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.star-btn.selected,
+.star-btn:hover {
+    color: #f5a623;
+}
+
+.review-content-input textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    resize: vertical;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.review-content-input textarea:focus {
+    border-color: #b7791f;
+}
+
+#submit-review {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 7px;
+    background: #a66a2c;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+#submit-review:hover {
+    background: #875322;
+}
+
+#submit-review:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+#review-message {
+    margin: 12px 0 0;
+    color: #287a45;
+    font-size: 14px;
+}
+
+/* Danh sách đánh giá */
+
+.review-item {
+    padding: 22px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.review-user {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.review-user strong {
+    color: #333;
+    font-size: 15px;
+}
+
+.review-date {
+    color: #999;
+    font-size: 12px;
+}
+
+.review-content {
+    margin: 12px 0 0;
+    color: #555;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.no-reviews {
+    padding: 20px 0;
+    color: #777;
+    text-align: center;
+}
+
+/* Phản hồi quản trị viên */
+
+.review-reply {
+    margin: 18px 0 0 25px;
+    padding: 15px 18px;
+    border-left: 3px solid #b7791f;
+    border-radius: 0 8px 8px 0;
+    background: #fffaf3;
+}
+
+.review-reply strong {
+    color: #9a6425;
+    font-size: 14px;
+}
+
+.review-reply p {
+    margin: 8px 0;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+    .reviews-section {
+        margin: 25px auto;
+    }
+
+    .reviews-container {
+        padding: 18px;
+    }
+
+    .reviews-container h2 {
+        font-size: 22px;
+    }
+
+    .review-form-container {
+        padding: 16px;
+    }
+
+    .review-user {
+        gap: 7px;
+    }
+
+    .review-reply {
+        margin-left: 10px;
+    }
+}
