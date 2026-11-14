@@ -1256,3 +1256,100 @@ img {
   font-size: 12px;
   font-weight: bold;
 }
+
+
+/* ================= ĐỒNG BỘ FONT TRANG LIÊN HỆ ================= */
+
+.contact-panel,
+.contact-panel input,
+.contact-panel select,
+.contact-panel textarea,
+.contact-panel button {
+  font-family: var(--font-main);
+}
+
+.contact-panel h2,
+.contact-form-heading h3 {
+  font-family: var(--font-heading);
+  color: var(--brown);
+}
+
+.contact-panel p {
+  font-family: var(--font-main);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.contact-form label {
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  font-family: var(--font-main);
+  font-size: 14px;
+}
+
+
+/* GOOGLE MAPS - CENDELI */
+.cendeli-map-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.cendeli-map-info {
+    margin-bottom: 20px;
+}
+
+.cendeli-map-info h2 {
+    font-size: 26px;
+    margin-bottom: 12px;
+}
+
+.cendeli-map-info p {
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+.cendeli-map-frame {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+}
+
+.cendeli-map-frame iframe {
+    display: block;
+    width: 100%;
+    border: none;
+}
+
+.cendeli-map-button {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 12px 20px;
+    background-color: #2e7d32;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.cendeli-map-button:hover {
+    background-color: #1b5e20;
+}
+
+@media (max-width: 768px) {
+    .cendeli-map-section {
+        padding: 12px;
+    }
+
+    .cendeli-map-frame iframe {
+        height: 300px;
+    }
+}

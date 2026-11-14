@@ -23,3 +23,57 @@
 .top-selling-info small{display:block;color:var(--muted);font-size:9px;margin-top:4px}
 .top-selling-item>strong{font-size:10px;color:var(--green);white-space:nowrap}
 @media(max-width:760px){.revenue-chart{gap:5px;height:190px}.revenue-value{font-size:8px}.top-selling-item>strong{font-size:9px}}
+
+/* ==============================
+   CHĂM SÓC KHÁCH HÀNG
+============================== */
+
+#contactDialog {
+  width: min(650px, calc(100% - 28px));
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+#contactDialog .detail-box p {
+  line-height: 1.7;
+  margin: 10px 0;
+  overflow-wrap: anywhere;
+}
+
+#contactDialog label {
+  display: block;
+  margin: 16px 0 8px;
+  font-weight: 600;
+}
+
+#contactDialog textarea,
+#contactDialog select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid var(--border, #e5e5e5);
+  border-radius: 8px;
+  font: inherit;
+  background: #fff;
+}
+
+#contactDialog textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+#contactDialog .dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+#page-contacts .table-wrap {
+  overflow-x: auto;
+}
+
+#page-contacts table {
+  min-width: 850px;
+}

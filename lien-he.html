@@ -1,0 +1,300 @@
+
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Liên hệ & góp ý | CenDeli</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&display=swap&subset=vietnamese"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/lien-he.css" />
+</head>
+
+
+<body>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <img
+          class="brand-logo"
+          src="logo.png"
+          alt="Logo CenDeli"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        />
+        <span class="brand-mark">C</span>
+        <span class="brand-text">
+          <strong>CenDeli</strong>
+          <small>ĐẶC SẢN MIỀN TRUNG</small>
+        </span>
+      </a>
+
+      <nav class="main-nav" id="mainNav">
+        <a class="nav-link" href="index.html">Trang chủ</a>
+
+        <div class="nav-item">
+          <a class="nav-link" href="index.html#danh-muc">
+            Danh mục <span class="chev">&#9662;</span>
+          </a>
+          <div class="dropdown">
+            <a href="san-pham.html?category=1">Đồ ăn liền, nhấm nháp</a>
+            <a href="san-pham.html?category=2">Thịt &amp; đồ lên men truyền thống</a>
+            <a href="san-pham.html?category=3">Hải sản khô &amp; mắm vùng miền</a>
+          </div>
+        </div>
+
+        <a class="nav-link" href="index.html#san-pham">Sản phẩm</a>
+        <a class="nav-link" href="gioi-thieu.html">Giới thiệu</a>
+        <a class="nav-link active" href="lien-he.html">Liên hệ</a>
+        <a class="nav-link" href="index.html#chinh-sach">Chính sách</a>
+      </nav>
+
+      <div class="header-actions">
+        <a class="btn btn-outline btn-small" href="dang-nhap.html">Đăng nhập</a>
+        <a class="btn btn-primary btn-small" href="dang-ky.html">Đăng ký</a>
+        <a class="cart-link" href="gio-hang.html">
+          Giỏ hàng <span id="cartCount">0</span>
+        </a>
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          aria-label="Mở menu"
+          aria-expanded="false"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- NỘI DUNG LIÊN HỆ -->
+  <main>
+    <section class="section contact-page-section">
+      <div class="container">
+        <div class="contact-page-heading">
+          <p class="eyebrow">CHĂM SÓC KHÁCH HÀNG</p>
+          <h1>Liên hệ &amp; góp ý với CenDeli</h1>
+          <p>
+            CenDeli luôn sẵn sàng lắng nghe. Hãy chia sẻ vấn đề hoặc ý kiến
+            của bạn để chúng tôi có thể hỗ trợ sớm nhất.
+          </p>
+        </div>
+
+        <div class="contact-page-panel">
+
+          <!-- CỘT 1: GIỚI THIỆU -->
+          <div class="contact-intro">
+            <p class="eyebrow">CENDELI LUÔN SẴN SÀNG LẮNG NGHE</p>
+            <h2>Cần hỗ trợ đơn hàng?</h2>
+            <p>
+              Liên hệ với chúng tôi để được tư vấn, giải đáp thắc mắc
+              hoặc gửi những góp ý giúp CenDeli phục vụ bạn tốt hơn.
+            </p>
+            <div class="contact-intro-note">
+              <span>♡</span>
+              <p>Mỗi ý kiến của bạn đều giúp CenDeli hoàn thiện hơn.</p>
+            </div>
+          </div>
+
+          <!-- CỘT 2: FORM -->
+          <div class="contact-form-wrap">
+            <div class="contact-form-heading">
+              <p class="eyebrow">GỬI THÔNG TIN CHO CHÚNG TÔI</p>
+              <h2>Chúng tôi có thể giúp gì cho bạn?</h2>
+              <p>
+                Vui lòng điền thông tin bên dưới. Các mục có dấu
+                <span class="required-mark">*</span> là bắt buộc.
+              </p>
+            </div>
+
+            <form id="contactForm" class="contact-form">
+              <div class="contact-form-grid">
+                <label>
+                  Họ và tên <span class="required-mark">*</span>
+                  <input
+                    type="text"
+                    name="name"
+                    maxlength="100"
+                    placeholder="Nhập họ và tên"
+                    required
+                  />
+                </label>
+
+                <label>
+                  Email <span class="required-mark">*</span>
+                  <input
+                    type="email"
+                    name="email"
+                    maxlength="150"
+                    placeholder="example@gmail.com"
+                    required
+                  />
+                </label>
+
+                <label>
+                  Số điện thoại
+                  <input
+                    type="tel"
+                    name="phone"
+                    maxlength="15"
+                    placeholder="Nhập số điện thoại"
+                  />
+                </label>
+
+                <label>
+                  Loại yêu cầu <span class="required-mark">*</span>
+                  <select name="type" required>
+                    <option value="contact">Liên hệ / Cần hỗ trợ</option>
+                    <option value="feedback">Góp ý dịch vụ</option>
+                  </select>
+                </label>
+              </div>
+
+              <label>
+                Chủ đề
+                <input
+                  type="text"
+                  name="subject"
+                  maxlength="150"
+                  placeholder="Ví dụ: Hỗ trợ đơn hàng, góp ý sản phẩm..."
+                />
+              </label>
+
+              <label>
+                Nội dung <span class="required-mark">*</span>
+                <textarea
+                  name="message"
+                  rows="5"
+                  maxlength="5000"
+                  placeholder="Nhập nội dung bạn cần CenDeli hỗ trợ..."
+                  required
+                ></textarea>
+              </label>
+
+              <button type="submit" class="contact-submit-btn">
+                Gửi liên hệ <span>&rarr;</span>
+              </button>
+
+              <p
+                id="contactFormMessage"
+                class="contact-form-message"
+                role="status"
+                aria-live="polite"
+              ></p>
+            </form>
+          </div>
+
+          <!-- CỘT 3: THÔNG TIN -->
+          <aside class="contact-details">
+            <p class="eyebrow">THÔNG TIN HỖ TRỢ</p>
+            <h3>Kết nối với CenDeli</h3>
+
+            <div class="contact-detail-item">
+              <span class="contact-detail-icon">☎</span>
+              <div>
+                <strong>Điện thoại</strong>
+                <a href="tel:0357668998">0357 668 998</a>
+              </div>
+            </div>
+
+            <div class="contact-detail-item">
+              <span class="contact-detail-icon">✉</span>
+              <div>
+                <strong>Email</strong>
+                <a href="mailto:Cendeli@gmail.com">Cendeli@gmail.com</a>
+              </div>
+            </div>
+ 
+            <div class="contact-detail-item">
+            <span class="contact-detail-icon">⌖</span>
+            <div>
+                <strong>Địa chỉ</strong> Quận 7, TP. Hồ Chí Minh
+            </div>
+
+            <a
+                href="https://www.google.com/maps/dir/?api=1&destination=Quan+7%2C+Ho+Chi+Minh+City%2C+Vietnam"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="cendeli-map-button"
+            >
+                Xem đường đi trên Google Maps
+            </a>
+            </div>
+
+            <div class="cendeli-map-frame">
+            <iframe
+                src="https://www.google.com/maps?q=Quan%207%2C%20Ho%20Chi%20Minh%20City%2C%20Vietnam&output=embed"
+                width="100%"
+                height="400"
+                style="border:0;"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Bản đồ khu vực CenDeli tại Quận 7"
+            ></iframe>
+        </div>
+        </div>
+    </section> 
+    </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a class="brand footer-logo" href="index.html">
+          <img
+            class="brand-logo"
+            src="logo.png"
+            alt="Logo CenDeli"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          />
+          <span class="brand-mark">C</span>
+          <span class="brand-text">
+            <strong>CenDeli</strong>
+            <small>ĐẶC SẢN MIỀN TRUNG</small>
+          </span>
+        </a>
+        <p>Gói trọn vị miền Trung,<br />gửi gắm vị quê nhà.</p>
+      </div>
+
+      <div class="footer-column">
+        <h3>Khám phá</h3>
+        <a href="index.html#danh-muc">Danh mục</a>
+        <a href="index.html#san-pham">Sản phẩm</a>
+        <a href="gioi-thieu.html">Giới thiệu</a>
+      </div>
+
+      <div class="footer-column">
+        <h3>Hỗ trợ khách hàng</h3>
+        <a href="index.html#doi-tra">Chính sách đổi trả</a>
+        <a href="index.html#van-chuyen">Vận chuyển &amp; đóng gói</a>
+        <a href="index.html#bao-mat">Bảo mật thông tin</a>
+        <a href="index.html#bao-hanh">Bảo hành &amp; chất lượng</a>
+        <a href="lien-he.html">Liên hệ &amp; góp ý</a>
+      </div>
+
+      <div class="footer-column">
+        <h3>Liên hệ</h3>
+        <p>SĐT: 0357 668 998</p>
+        <p>Email: Cendeli@gmail.com</p>
+        <p>Địa chỉ: TP. Hồ Chí Minh</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 CenDeli. Đặc sản miền Trung.</p>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/contact.js"></script>
+</body>
+</html>

@@ -18,6 +18,7 @@
     <button class="nav-link" data-page="products"><span>▣</span> Sản phẩm</button>
     <button class="nav-link" data-page="orders"><span>▤</span> Đơn hàng</button>
     <button class="nav-link" data-page="users"><span>♙</span> Người dùng</button>
+    <button class="nav-link" data-page="contacts"><span>✉</span> Chăm sóc khách hàng</button>
     <div class="sidebar-bottom"><div class="admin-mini"><div class="avatar">A</div><div><b id="adminName">Quản trị viên</b><small>Administrator</small></div></div><button id="logoutBtn" class="logout">↪ Đăng xuất</button><a class="back-link" href="index.html">← Quay lại website</a></div>
   </aside>
   <main class="main-area">
@@ -60,6 +61,52 @@
         <div class="toolbar"><input id="userSearch" type="search" placeholder="Tìm theo tên hoặc email..."><select id="userRoleFilter"><option value="">Tất cả vai trò</option><option value="customer">Khách hàng</option><option value="admin">Quản trị viên</option></select></div>
         <div class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>NGƯỜI DÙNG</th><th>SỐ ĐIỆN THOẠI</th><th>VAI TRÒ</th><th>TRẠNG THÁI</th><th>THAO TÁC</th></tr></thead><tbody id="userTable"></tbody></table></div></div>
       </section>
+      <section class="page" id="page-contacts">
+        <div class="section-intro">
+          <div>
+            <h2>Chăm sóc khách hàng</h2>
+            <p>Tiếp nhận liên hệ, góp ý và phản hồi các yêu cầu từ khách hàng.</p>
+          </div>
+          <button class="primary-btn" id="refreshContactsBtn">↻ Làm mới</button>
+        </div>
+
+        <div class="toolbar">
+          <input id="contactSearch" type="search"
+                 placeholder="Tìm theo tên, email hoặc chủ đề...">
+          <select id="contactTypeFilter">
+            <option value="">Tất cả loại yêu cầu</option>
+            <option value="contact">Liên hệ / Cần hỗ trợ</option>
+            <option value="feedback">Góp ý dịch vụ</option>
+          </select>
+          <select id="contactStatusFilter">
+            <option value="">Tất cả trạng thái</option>
+            <option value="new">Mới</option>
+            <option value="read">Đã xem</option>
+            <option value="replied">Đã phản hồi</option>
+          </select>
+        </div>
+
+        <div class="panel table-panel">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>MÃ</th>
+                  <th>KHÁCH HÀNG</th>
+                  <th>LOẠI YÊU CẦU</th>
+                  <th>CHỦ ĐỀ</th>
+                  <th>NGÀY GỬI</th>
+                  <th>TRẠNG THÁI</th>
+                  <th>THAO TÁC</th>
+                </tr>
+              </thead>
+              <tbody id="contactTable">
+                <tr><td colspan="7" class="empty-state">Đang tải dữ liệu...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section> 
     </div>
   </main>
 </div>

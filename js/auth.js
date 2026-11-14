@@ -383,12 +383,16 @@
         : "";
 
   /* ---------- Trang đăng nhập ---------- */
-  function loginPage() {
+ 
+  async function loginPage() {
     if (cur()) return (location.href = "index.html");
+
     const f = $("#loginForm");
-    f.onsubmit = (e) => {
+
+    f.onsubmit = async (e) => {
       e.preventDefault();
       clr(f);
+
       if (
         !check(f, [
           ["email", emailRule],
@@ -396,36 +400,115 @@
         ])
       )
         return;
+
       const email = f.email.value.trim().toLowerCase();
-      const u = get(K.users, []).find(
-        (x) =>
-          x.email.toLowerCase() === email && x.password === f.password.value,
-      );
-      if (!u) return msg(f, "Email hoặc mật khẩu không đúng.");
-      if (u.status === "locked")
-        return msg(
-          f,
-          "Tài khoản đã bị khóa. Vui lòng liên hệ CenDeli để được hỗ trợ.",
+      const password = f.password.value;
+
+      const submitButton = f.querySelector('[type="submit"]');
+
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Đang đăng nhập...";
+      }
+
+      try {
+        // Gửi thông tin đăng nhập đến Backend
+        const response = await fetch("http://localhost:3000/api/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          msg(
+            f,
+            result.message || "Email hoặc mật khẩu không chính xác."
+          );
+          return;
+        }
+
+        // Backend trả về JWT Token
+        if (!result.token || !result.user) {
+          msg(f, "Backend không trả về thông tin đăng nhập hợp lệ.");
+          return;
+        }
+
+        // Lưu JWT để reviews.js sử dụng
+        localStorage.setItem("cendeli_token", result.token);
+
+        // Đồng bộ thông tin tài khoản với dữ liệu localStorage hiện tại
+        const backendUser = result.user;
+        const users = get(K.users, []);
+
+        const oldUser = users.find(
+          (u) => u.email.toLowerCase() === email
         );
-      localStorage.setItem(K.cur, u.id);
-      const next = new URLSearchParams(location.search).get("next");
-      const dest = /^[\w-]+\.html$/.test(next || "") ? next : "index.html";
-      if (u.role === "admin" && ADMIN_PAGE)
-        fetch(ADMIN_PAGE, { method: "HEAD" })
-          .then((r) => (location.href = r.ok ? ADMIN_PAGE : dest))
-          .catch(() => (location.href = dest));
-      else location.href = dest;
+
+        const localUser = {
+          ...(oldUser || {}),
+          id: oldUser ? oldUser.id : Number(backendUser.id),
+          fullName: backendUser.full_name,
+          email: backendUser.email,
+          role: backendUser.role,
+          status: "active",
+        };
+
+        const updatedUsers = oldUser
+          ? users.map((u) =>
+              u.email.toLowerCase() === email ? localUser : u
+            )
+          : [...users, localUser];
+
+        set(K.users, updatedUsers);
+        localStorage.setItem(K.cur, localUser.id);
+
+        // Chuyển trang sau khi đăng nhập thành công
+        const next = new URLSearchParams(location.search).get("next");
+        const dest = /^[\w-]+\.html$/.test(next || "")
+          ? next
+          : "index.html";
+
+        if (backendUser.role === "admin" && ADMIN_PAGE) {
+          fetch(ADMIN_PAGE, { method: "HEAD" })
+            .then((r) => (location.href = r.ok ? ADMIN_PAGE : dest))
+            .catch(() => (location.href = dest));
+        } else {
+          location.href = dest;
+        }
+      } catch (error) {
+        console.error("Lỗi kết nối đăng nhập:", error);
+        msg(
+          f,
+          "Không thể kết nối Backend. Vui lòng kiểm tra máy chủ Backend."
+        );
+      } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = "Đăng nhập";
+        }
+      }
     };
   }
+
+
 
   /* ---------- Trang đăng ký ---------- */
   function registerPage() {
     if (cur()) return (location.href = "index.html");
+
     const f = $("#registerForm");
-    f.onsubmit = (e) => {
+    if (!f) return;
+
+    f.onsubmit = async (e) => {
       e.preventDefault();
       clr(f);
+
       const users = get(K.users, []);
+
       const ok = check(f, [
         [
           "fullName",
@@ -442,9 +525,7 @@
             emailRule(v) ||
             (v.length > 150
               ? "Email tối đa 150 ký tự"
-              : users.some((u) => u.email.toLowerCase() === v.toLowerCase())
-                ? "Email này đã được đăng ký"
-                : ""),
+              : ""),
         ],
         ["phone", phoneRule],
         ["password", pwRule],
@@ -458,25 +539,102 @@
                 : "",
         ],
       ]);
+
       if (!ok) return;
-      const u = {
-        id: Math.max(0, ...users.map((x) => x.id)) + 1,
-        fullName: f.fullName.value.trim(),
-        email: f.email.value.trim(),
-        phone: f.phone.value.trim(),
-        password: f.password.value,
-        role: "customer",
-        status: "active",
-        marketingConsent: f.consent.checked,
-        consentAt: f.consent.checked ? now() : null,
-        createdAt: now(),
-        updatedAt: now(),
-      };
-      set(K.users, [...users, u]);
-      localStorage.setItem(K.cur, u.id);
-      location.href = "index.html";
+
+      const fullName = f.fullName.value.trim();
+      const email = f.email.value.trim().toLowerCase();
+      const phone = f.phone.value.trim();
+      const password = f.password.value;
+
+      const submitButton = f.querySelector('[type="submit"]');
+
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Đang đăng ký...";
+      }
+
+      try {
+        const response = await fetch(
+          "http://localhost:3000/api/auth/register",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              fullName,
+              email,
+              phone,
+              password,
+            }),
+          }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          msg(f, result.message || "Đăng ký không thành công.");
+          return;
+        }
+
+        if (!result.token || !result.user) {
+          msg(f, "Backend không trả về thông tin tài khoản hợp lệ.");
+          return;
+        }
+
+        // Lưu JWT để sử dụng khi gửi đánh giá sản phẩm
+        localStorage.setItem("cendeli_token", result.token);
+
+        // Đồng bộ tài khoản vào localStorage để các trang cũ tiếp tục hoạt động
+        const backendUser = result.user;
+
+        const newUser = {
+          id: Number(backendUser.id),
+          fullName: backendUser.full_name,
+          email: backendUser.email,
+          phone: phone,
+          role: backendUser.role,
+          status: "active",
+          marketingConsent: f.consent.checked,
+          consentAt: f.consent.checked ? now() : null,
+          createdAt: now(),
+          updatedAt: now(),
+        };
+
+        const updatedUsers = [
+          ...users.filter(
+            (u) => u.email.toLowerCase() !== email
+          ),
+          newUser,
+        ];
+
+        set(K.users, updatedUsers);
+        localStorage.setItem(K.cur, newUser.id);
+
+        msg(f, "Đăng ký tài khoản thành công! Đang chuyển trang...", true);
+
+        setTimeout(() => {
+          location.href = "index.html";
+        }, 800);
+
+      } catch (error) {
+        console.error("Lỗi đăng ký:", error);
+
+        msg(
+          f,
+          "Không thể kết nối Backend. Vui lòng kiểm tra máy chủ Backend."
+        );
+
+      } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = "Đăng ký";
+        }
+      }
     };
   }
+
 
   /* ---------- Khung tài khoản dùng chung (menu bên trái) ---------- */
   function sideCard(me, active, n, asTabs) {

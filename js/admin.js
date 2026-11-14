@@ -10,7 +10,7 @@
   const STATUS = { pending:'Chờ xác nhận', confirmed:'Đã xác nhận', shipping:'Đang giao', completed:'Hoàn tất', cancelled:'Đã hủy' };
   const PAY = { cod:'COD', bank_transfer:'Chuyển khoản', ewallet:'Ví điện tử' };
   // products được dùng trực tiếp từ js/products.js; không tạo mảng sản phẩm thứ hai.
-  let users = [], orders = [];
+  let users = [], orders = [], contacts = [];
   let toastTimer;
   function notify(message) { const el = $('#toast'); el.textContent = message; el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2400); }
   function currentUser() { const id = Number(localStorage.getItem(KEY.current)); return read(KEY.users).find(u => Number(u.id) === id && u.status !== 'locked'); }
@@ -24,13 +24,33 @@
     }
   }
   function saveProducts() { if (write(KEY.products, products)) { renderProducts(); renderDashboard(); notify('Danh sách sản phẩm đã được lưu.'); } }
+
   function showPage(name) {
-    document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === `page-${name}`));
-    document.querySelectorAll('.nav-link').forEach(b => b.classList.toggle('active', b.dataset.page === name));
-    $('#pageTitle').textContent = ({dashboard:'Dashboard',products:'Quản lý sản phẩm',orders:'Quản lý đơn hàng',users:'Quản lý người dùng'})[name];
-    $('#sidebar').classList.remove('open');
-    if (name === 'dashboard') renderDashboard(); if (name === 'products') renderProducts(); if (name === 'orders') renderOrders(); if (name === 'users') renderUsers();
-  }
+  document.querySelectorAll('.page').forEach(p =>
+    p.classList.toggle('active', p.id === `page-${name}`)
+  );
+
+  document.querySelectorAll('.nav-link').forEach(b =>
+    b.classList.toggle('active', b.dataset.page === name)
+  );
+
+  const titles = {
+    dashboard: 'Dashboard',
+    products: 'Quản lý sản phẩm',
+    orders: 'Quản lý đơn hàng',
+    users: 'Quản lý người dùng',
+    contacts: 'Chăm sóc khách hàng'
+  };
+
+  $('#pageTitle').textContent = titles[name] || 'Dashboard';
+  $('#sidebar').classList.remove('open');
+
+  if (name === 'dashboard') renderDashboard();
+  if (name === 'products') renderProducts();
+  if (name === 'orders') renderOrders();
+  if (name === 'users') renderUsers();
+  if (name === 'contacts') loadContacts();
+}
   function renderDashboard() {
     $('#statProducts').textContent = products.length;
     $('#statOrders').textContent = orders.length;
@@ -139,6 +159,269 @@
     $('#userTable').innerHTML = list.length ? list.map(u => `<tr><td><b>${esc(u.fullName)}</b><small style="display:block;color:#9aa49c;margin-top:4px">${esc(u.email)}</small></td><td>${esc(u.phone || '—')}</td><td><span class="pill ${u.role==='admin'?'confirmed':'active'}">${u.role==='admin'?'Quản trị viên':'Khách hàng'}</span></td><td><span class="pill ${u.status==='locked'?'locked':'active'}">${u.status==='locked'?'Đã khóa':'Hoạt động'}</span></td><td>${u.role==='admin' ? '<span style="color:#9aa49c">Tài khoản quản trị</span>' : `<button class="action-btn" data-toggle-user="${u.id}" data-status="${u.status==='locked'?'active':'locked'}">${u.status==='locked'?'Mở khóa':'Khóa tài khoản'}</button>`}</td></tr>`).join('') : '<tr><td colspan="5" class="empty-state">Không tìm thấy người dùng.</td></tr>';
   }
   function toggleUser(id,status) { const user = users.find(u => Number(u.id) === Number(id)); if (!user || user.role === 'admin') return; user.status = status; if (write(KEY.users,users)) { renderUsers(); notify(status === 'locked' ? 'Đã khóa tài khoản người dùng.' : 'Đã mở khóa tài khoản.'); } }
+  
+  // ==============================
+  // QUẢN LÝ LIÊN HỆ VÀ GÓP Ý
+  // ==============================
+
+  const CONTACT_API = 'http://localhost:3000/api/contacts';
+
+  const CONTACT_STATUS = {
+    new: 'Mới',
+    read: 'Đã xem',
+    replied: 'Đã phản hồi'
+  };
+
+  const CONTACT_TYPE = {
+    contact: 'Liên hệ / Cần hỗ trợ',
+    feedback: 'Góp ý dịch vụ'
+  };
+
+  function getAdminToken() {
+    return localStorage.getItem('cendeli_token');
+  }
+
+  async function contactRequest(url, options = {}) {
+    const token = getAdminToken();
+
+    if (!token) {
+      throw new Error('Không tìm thấy phiên đăng nhập. Vui lòng đăng nhập lại.');
+    }
+
+    const response = await fetch(url, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+        ...(options.headers || {})
+      }
+    });
+
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok || result.success === false) {
+      throw new Error(result.message || 'Không thể xử lý yêu cầu.');
+    }
+
+    return result;
+  }
+
+  async function loadContacts() {
+    const tbody = $('#contactTable');
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" class="empty-state">Đang tải dữ liệu...</td>
+      </tr>
+    `;
+
+    try {
+      const result = await contactRequest(`${CONTACT_API}/admin`);
+
+      // Hỗ trợ trường hợp API trả về { contacts: [...] }
+      // hoặc { data: [...] }.
+      contacts = Array.isArray(result.contacts)
+        ? result.contacts
+        : Array.isArray(result.data)
+          ? result.data
+          : [];
+
+      renderContacts();
+    } catch (error) {
+      console.error('Lỗi tải liên hệ:', error);
+
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" class="empty-state">
+            ${esc(error.message)}
+          </td>
+        </tr>
+      `;
+
+      notify(error.message);
+    }
+  }
+
+  function renderContacts() {
+    const tbody = $('#contactTable');
+    const keyword = ($('#contactSearch').value || '')
+      .trim().toLocaleLowerCase('vi-VN');
+
+    const type = $('#contactTypeFilter').value;
+    const status = $('#contactStatusFilter').value;
+
+    const list = contacts.filter(item => {
+      const searchText = [
+        item.name,
+        item.email,
+        item.subject,
+        item.message
+      ].join(' ').toLocaleLowerCase('vi-VN');
+
+      return searchText.includes(keyword)
+        && (!type || item.type === type)
+        && (!status || item.status === status);
+    });
+
+    if (!list.length) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" class="empty-state">
+            Không tìm thấy yêu cầu liên hệ phù hợp.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    tbody.innerHTML = list.map(item => {
+      const statusClass = item.status === 'replied'
+        ? 'active'
+        : item.status === 'read'
+          ? 'confirmed'
+          : 'unpaid';
+
+      return `
+        <tr>
+          <td>#${esc(item.id)}</td>
+          <td>
+            <b>${esc(item.name)}</b>
+            <small style="display:block;color:#9aa49c;margin-top:4px">
+              ${esc(item.email)}
+            </small>
+          </td>
+          <td>${esc(CONTACT_TYPE[item.type] || item.type)}</td>
+          <td>${esc(item.subject || 'Không có chủ đề')}</td>
+          <td>${esc(item.created_at || '—')}</td>
+          <td>
+            <span class="pill ${statusClass}">
+              ${esc(CONTACT_STATUS[item.status] || item.status)}
+            </span>
+          </td>
+          <td>
+            <button class="action-btn"
+                    data-contact-detail="${esc(item.id)}">
+              Xem / Phản hồi
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  function showContactDetail(id) {
+    const item = contacts.find(c => Number(c.id) === Number(id));
+
+    if (!item) {
+      notify('Không tìm thấy yêu cầu liên hệ.');
+      return;
+    }
+
+    const oldDialog = $('#contactDialog');
+    if (oldDialog) oldDialog.remove();
+
+    const dialog = document.createElement('dialog');
+    dialog.id = 'contactDialog';
+    dialog.className = 'product-dialog';
+
+    dialog.innerHTML = `
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">CHĂM SÓC KHÁCH HÀNG</p>
+          <h2>Yêu cầu #${esc(item.id)}</h2>
+        </div>
+        <button type="button" class="close-btn" id="closeContactDialog">×</button>
+      </div>
+
+      <div class="detail-box">
+        <p><b>Khách hàng:</b> ${esc(item.name)}</p>
+        <p><b>Email:</b> ${esc(item.email)}</p>
+        <p><b>Số điện thoại:</b> ${esc(item.phone || 'Chưa cung cấp')}</p>
+        <p><b>Loại yêu cầu:</b> ${esc(CONTACT_TYPE[item.type] || item.type)}</p>
+        <p><b>Chủ đề:</b> ${esc(item.subject || 'Không có chủ đề')}</p>
+        <p><b>Ngày gửi:</b> ${esc(item.created_at || '—')}</p>
+        <hr>
+        <p><b>Nội dung khách hàng:</b></p>
+        <p style="white-space:pre-wrap">${esc(item.message)}</p>
+        <hr>
+        <label for="contactReply"><b>Phản hồi khách hàng</b></label>
+        <textarea id="contactReply" rows="5"
+          placeholder="Nhập nội dung phản hồi...">${esc(item.admin_reply || '')}</textarea>
+
+        <label for="contactNewStatus"><b>Trạng thái</b></label>
+        <select id="contactNewStatus">
+          <option value="new" ${item.status === 'new' ? 'selected' : ''}>Mới</option>
+          <option value="read" ${item.status === 'read' ? 'selected' : ''}>Đã xem</option>
+          <option value="replied" ${item.status === 'replied' ? 'selected' : ''}>Đã phản hồi</option>
+        </select>
+
+        <div class="dialog-actions">
+          <button type="button" class="secondary-btn" id="saveContactStatus">
+            Lưu trạng thái
+          </button>
+          <button type="button" class="primary-btn" id="sendContactReply">
+            Lưu phản hồi
+          </button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(dialog);
+    dialog.showModal();
+
+    $('#closeContactDialog', dialog).addEventListener('click', () => {
+      dialog.close();
+      dialog.remove();
+    });
+
+    $('#saveContactStatus', dialog).addEventListener('click', async () => {
+      const newStatus = $('#contactNewStatus', dialog).value;
+
+      try {
+        await contactRequest(
+          `${CONTACT_API}/admin/${item.id}/status`,
+          {
+            method: 'PATCH',
+            body: JSON.stringify({ status: newStatus })
+          }
+        );
+
+        notify('Đã cập nhật trạng thái yêu cầu.');
+        dialog.close();
+        dialog.remove();
+        await loadContacts();
+      } catch (error) {
+        notify(error.message);
+      }
+    });
+
+    $('#sendContactReply', dialog).addEventListener('click', async () => {
+      const reply = $('#contactReply', dialog).value.trim();
+
+      if (!reply) {
+        notify('Vui lòng nhập nội dung phản hồi.');
+        return;
+      }
+
+      try {
+        await contactRequest(
+          `${CONTACT_API}/admin/${item.id}/reply`,
+          {
+            method: 'POST',
+            body: JSON.stringify({ admin_reply: reply })
+          }
+        );
+
+        notify('Đã lưu phản hồi khách hàng.');
+        dialog.close();
+        dialog.remove();
+        await loadContacts();
+      } catch (error) {
+        notify(error.message);
+      }
+    });
+  }  
+  
   function bind() {
     document.querySelectorAll('.nav-link').forEach(b => b.addEventListener('click',()=>showPage(b.dataset.page)));
     document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.goto)));
@@ -155,6 +438,17 @@
     $('#closeOrderDialog').addEventListener('click',()=>$('#orderDialog').close());
     $('#userSearch').addEventListener('input',renderUsers); $('#userRoleFilter').addEventListener('change',renderUsers);
     $('#userTable').addEventListener('click',e=>{const b=e.target.closest('[data-toggle-user]');if(b)toggleUser(b.dataset.toggleUser,b.dataset.status);});
+        // Sự kiện quản lý liên hệ và góp ý
+    $('#contactSearch').addEventListener('input', renderContacts);
+    $('#contactTypeFilter').addEventListener('change', renderContacts);
+    $('#contactStatusFilter').addEventListener('change', renderContacts);
+
+    $('#refreshContactsBtn').addEventListener('click', loadContacts);
+
+    $('#contactTable').addEventListener('click', e => {
+      const button = e.target.closest('[data-contact-detail]');
+      if (button) showContactDetail(button.dataset.contactDetail);
+    });
     window.addEventListener('storage',e=>{if(Object.values(KEY).includes(e.key)){loadData();renderDashboard();}});
   }
   document.addEventListener('DOMContentLoaded',()=>{const me=guard();if(!me)return;if(!Array.isArray(products)){alert('Không tải được danh sách sản phẩm. Hãy kiểm tra thứ tự nhúng js/products.js và js/admin.js.');return;}$('#adminName').textContent=me.fullName||'Quản trị viên';$('#welcomeName').textContent=(me.fullName||'Admin').split(' ').slice(-1)[0];loadData();bind();renderDashboard();});

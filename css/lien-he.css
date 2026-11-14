@@ -1,0 +1,372 @@
+
+/* ================= TRANG LIÊN HỆ CENDELI ================= */
+
+.contact-page-section {
+  min-height: 650px;
+  padding: 65px 0 85px;
+  background:
+    radial-gradient(circle at 10% 15%, rgba(229, 182, 74, 0.10), transparent 28%),
+    var(--cream);
+}
+
+.contact-page-heading {
+  max-width: 720px;
+  margin: 0 auto 42px;
+  text-align: center;
+}
+
+.contact-page-heading h1 {
+  margin-bottom: 14px;
+  color: var(--brown);
+  font-family: var(--font-heading);
+  font-size: clamp(30px, 4vw, 43px);
+  line-height: 1.25;
+}
+
+.contact-page-heading > p:last-child {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Bố cục ba cột */
+.contact-page-panel {
+  display: grid;
+  grid-template-columns:
+    minmax(180px, 0.8fr)
+    minmax(400px, 1.8fr)
+    minmax(210px, 0.9fr);
+  align-items: start;
+  gap: 30px;
+  padding: 38px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  box-shadow: 0 15px 40px rgba(74, 48, 39, 0.07);
+}
+
+/* Cột giới thiệu */
+.contact-intro {
+  padding-top: 12px;
+}
+
+.contact-intro h2 {
+  margin: 12px 0 16px;
+  color: var(--brown);
+  font-family: var(--font-heading);
+  font-size: clamp(25px, 2.5vw, 32px);
+  line-height: 1.3;
+}
+
+.contact-intro > p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.contact-intro-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 28px;
+  padding: 15px;
+  border-radius: 12px;
+  background: var(--cream);
+}
+
+.contact-intro-note span {
+  color: var(--brick);
+  font-size: 22px;
+}
+
+.contact-intro-note p {
+  color: var(--brown-light);
+  font-size: 12px;
+}
+
+/* Khu vực biểu mẫu */
+.contact-form-wrap {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 28px;
+  background: #fffcf7;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.contact-form-heading {
+  margin-bottom: 23px;
+}
+
+.contact-form-heading h2 {
+  margin: 8px 0;
+  color: var(--brown);
+  font-family: var(--font-heading);
+  font-size: 25px;
+  line-height: 1.35;
+}
+
+.contact-form-heading > p:last-child {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.required-mark {
+  color: #c44732;
+}
+
+.contact-form {
+  display: grid;
+  gap: 17px;
+}
+
+.contact-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.contact-form label {
+  display: grid;
+  gap: 7px;
+  color: var(--brown);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 13px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--white);
+  color: var(--brown);
+  font-family: var(--font-main);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.contact-form input,
+.contact-form select {
+  min-height: 47px;
+}
+
+.contact-form textarea {
+  min-height: 125px;
+  resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  border-color: var(--brick);
+  box-shadow: 0 0 0 3px rgba(180, 83, 43, 0.12);
+}
+
+.contact-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  justify-self: start;
+  min-width: 165px;
+  padding: 13px 23px;
+  border: 0;
+  border-radius: 30px;
+  background: var(--brick-dark);
+  color: var(--white);
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.contact-submit-btn:hover {
+  background: var(--brick);
+  transform: translateY(-2px);
+}
+
+.contact-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: wait;
+  transform: none;
+}
+
+.contact-form-message {
+  min-height: 20px;
+  margin: 0;
+  font-size: 13px;
+}
+
+.contact-form-message.success {
+  color: #16834a;
+}
+
+.contact-form-message.error {
+  color: #c0392b;
+}
+
+/* Cột thông tin liên hệ */
+.contact-details {
+  min-width: 0;
+  padding-top: 12px;
+}
+
+.contact-details h3 {
+  margin: 8px 0 23px;
+  color: var(--brown);
+  font-family: var(--font-heading);
+  font-size: 22px;
+  line-height: 1.35;
+}
+
+.contact-detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.contact-detail-icon {
+  display: flex;
+  flex: 0 0 37px;
+  width: 37px;
+  height: 37px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fff2d5;
+  color: var(--brick);
+  font-size: 17px;
+}
+
+.contact-detail-item div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.contact-detail-item strong {
+  color: var(--brown);
+  font-size: 12px;
+}
+
+.contact-detail-item a,
+.contact-detail-item div > span {
+  overflow-wrap: anywhere;
+  color: var(--brick);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.contact-detail-item a:hover {
+  color: var(--brick-dark);
+}
+
+.contact-support-note {
+  margin-top: 28px;
+  padding: 16px;
+  border-left: 3px solid var(--gold);
+  border-radius: 0 10px 10px 0;
+  background: var(--cream);
+}
+
+.contact-support-note strong {
+  color: var(--brown);
+  font-size: 12px;
+}
+
+.contact-support-note p {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* Máy tính bảng */
+@media (max-width: 1050px) {
+  .contact-page-panel {
+    grid-template-columns: minmax(160px, 0.7fr) minmax(350px, 1.5fr);
+    gap: 25px;
+    padding: 28px;
+  }
+
+  .contact-details {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .contact-details > .eyebrow,
+  .contact-details h3 {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+  }
+
+  .contact-support-note {
+    grid-column: 1 / -1;
+    margin-top: 0;
+  }
+}
+
+/* Điện thoại */
+@media (max-width: 650px) {
+  .contact-page-section {
+    padding: 45px 0 60px;
+  }
+
+  .contact-page-heading {
+    margin-bottom: 27px;
+  }
+
+  .contact-page-panel {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    padding: 20px 15px;
+  }
+
+  .contact-intro {
+    padding: 0 5px;
+  }
+
+  .contact-intro h2 {
+    font-size: 28px;
+  }
+
+  .contact-form-wrap {
+    padding: 21px 15px;
+  }
+
+  .contact-form-heading h2 {
+    font-size: 22px;
+  }
+
+  .contact-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-submit-btn {
+    width: 100%;
+  }
+
+  .contact-details {
+    grid-column: auto;
+    display: block;
+    padding: 22px 5px 0;
+  }
+
+  .contact-details h3 {
+    margin-bottom: 20px;
+  }
+
+  .contact-support-note {
+    margin-top: 20px;
+  }
+}
